@@ -1,35 +1,63 @@
+// Fix by Mohammad Nayan. Dont Change Credit
+
+
 const fs = require('fs');
 const ytdl = require('ytdl-core');
 const { resolve } = require('path');
+const nayan = require("nayan-media-downloader")
+const axios = require("axios")
 async function downloadMusicFromYoutube(link, path) {
-  var timestart = Date.now();
-  if(!link) return 'Thiếu link'
-  var resolveFunc = function () { };
-  var rejectFunc = function () { };
-  var returnPromise = new Promise(function (resolve, reject) {
-    resolveFunc = resolve;
-    rejectFunc = reject;
-  });
-    ytdl(link, {
-            filter: format =>
-                format.quality == 'tiny' && format.audioBitrate == 48 && format.hasAudio == true
-        }).pipe(fs.createWriteStream(path))
-        .on("close", async () => {
-            var data = await ytdl.getInfo(link)
-            var result = {
-                title: data.videoDetails.title,
-                dur: Number(data.videoDetails.lengthSeconds),
-                viewCount: data.videoDetails.viewCount,
-                likes: data.videoDetails.likes,
-                author: data.videoDetails.author.name,
+  if (!link) return 'Link Not Found';
+
+  const timestart = Date.now();
+
+  try {
+    const data = await nayan.ytdown(link);
+    console.log(data)
+    const audioUrl = data.data.video;
+
+    return new Promise((resolve, reject) => {
+      axios({
+        method: 'get',
+        url: audioUrl,
+        responseType: 'stream'
+      }).then(response => {
+        const writeStream = fs.createWriteStream(path);
+
+        response.data.pipe(writeStream)
+          .on('finish', async () => {
+            try {
+              const info = await ytdl.getInfo(link);
+              const result = {
+                title: info.videoDetails.title,
+                dur: Number(info.videoDetails.lengthSeconds),
+                viewCount: info.videoDetails.viewCount,
+                likes: info.videoDetails.likes,
+                author: info.videoDetails.author.name,
                 timestart: timestart
+              };
+              resolve(result);
+            } catch (error) {
+              reject(error);
             }
-            resolveFunc(result)
-        })
-  return returnPromise
+          })
+          .on('error', (error) => {
+            reject(error);
+          });
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
-module.exports.config = {
+
+
+module.exports = {
+  config: {
+    
   name: "song", 
   version: "1.0.0", 
   permission: 0,
@@ -40,12 +68,15 @@ module.exports.config = {
   usages: "user", 
   cooldowns: 5,
   dependencies: {
-		"ytdl-core":"",
+    "axios":"",
+    "fs":"",
+    "nayan-media-downloader":"",
+	  "ytdl-core":"",
     "simple-youtube-api":""
 	}
-};
+},
 
-module.exports.handleReply = async function ({ api, event, handleReply }) {
+handleReply: async function ({ api, event, handleReply }) {
     const axios = require('axios')
     const { createReadStream, unlinkSync, statSync } = require("fs-extra")
     try {
@@ -60,8 +91,9 @@ module.exports.handleReply = async function ({ api, event, handleReply }) {
             
     }
     catch (e) { return console.log(e) }
-}
-module.exports.convertHMS = function(value) {
+},
+  
+convertHMS: function(value) {
     const sec = parseInt(value, 10); 
     let hours   = Math.floor(sec / 3600);
     let minutes = Math.floor((sec - (hours * 3600)) / 60); 
@@ -70,9 +102,10 @@ module.exports.convertHMS = function(value) {
     if (minutes < 10) {minutes = "0"+minutes;}
     if (seconds < 10) {seconds = "0"+seconds;}
     return (hours != '00' ? hours +':': '') + minutes+':'+seconds;
-}
-module.exports.run = async function ({ api, event, args }) {
-    if (args.length == 0 || !args) return api.sendMessage('» উফফ আবাল কি গান শুনতে চাস তার ২/১ লাইন তো লেখবি নাকি 🥵 empty!', event.threadID, event.messageID);
+},
+  
+  start: async function ({ nayan, events, args }) {
+    if (args.length == 0 || !args) return nayan.reply('» উফফ আবাল কি গান শুনতে চাস তার ২/১ লাইন তো লেখবি নাকি 🥵 empty!', events.threadID, events.messageID);
     const keywordSearch = args.join(" ");
     var path = `${__dirname}/cache/1.mp3`
     if (fs.existsSync(path)) { 
@@ -81,12 +114,12 @@ module.exports.run = async function ({ api, event, args }) {
     if (args.join(" ").indexOf("https://") == 0) {
         try {
             var data = await downloadMusicFromYoutube(args.join(" "), path);
-            if (fs.statSync(path).size > 26214400) return api.sendMessage('Unable to send files because the capacity is greater than 25MB .', event.threadID, () => fs.unlinkSync(path), event.messageID);
-            return api.sendMessage({ 
+            if (fs.statSync(path).size > 26214400) return nayan.reply('Unable to send files because the capacity is greater than 25MB .', events.threadID, () => fs.unlinkSync(path), events.messageID);
+            return nayan.reply({ 
                 body: `🎵 Title: ${data.title}\n🎶 Name Channel: ${data.author}\n⏱️ Time: ${this.convertHMS(data.dur)}\n👀 Views: ${data.viewCount}\n👍 Likes: ${data.likes}\n⏱️ Processing time: ${Math.floor((Date.now()- data.timestart)/1000)} second\n💿====DISME PROJECT====💿`,
-                attachment: fs.createReadStream(path)}, event.threadID, ()=> fs.unlinkSync(path), 
-            event.messageID)
-            
+                attachment: fs.createReadStream(path)}, events.threadID, ()=> fs.unlinkSync(path), 
+            events.messageID)
+
         }
         catch (e) { return console.log(e) }
     } else {
@@ -102,17 +135,17 @@ module.exports.run = async function ({ api, event, args }) {
               msg += (`${num} - ${value.title} (${value.length.simpleText})\n\n`);
             }
             var body = `»🔎 There's ${link.length} the result coincides with your search keyword:\n\n${msg}» Reply(feedback) select one of the searches above `
-            return api.sendMessage({
+            return nayan.reply({
               body: body
-            }, event.threadID, (error, info) => global.client.handleReply.push({
+            }, events.threadID, (error, info) => global.client.handleReply.push({
               type: 'reply',
               name: this.config.name,
               messageID: info.messageID,
-              author: event.senderID,
+              author: events.senderID,
               link
-            }), event.messageID);
+            }), events.messageID);
           } catch(e) {
-            return api.sendMessage('An error has occurred, please try again in a moment!!\n' + e, event.threadID, event.messageID);
+            return nayan.reply('An error has occurred, please try again in a moment!!\n' + e, events.threadID, events.messageID);
         }
     }
-                                                                                                                                                                                                       }
+                                                                                                                                                                                                       }}
