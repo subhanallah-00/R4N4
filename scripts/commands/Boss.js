@@ -13,7 +13,7 @@ prefix: true,
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	var { threadID, messageID } = event;
 	let react = event.body.toLowerCase();
-	if(react.includes("boss") || react.includes("rana") || react.includes("kar bot")) {
+	if(react.includes("boss") || react.includes("admin") || react.includes("kar bot")) {
 		var msg = {
 				body: "︵🌻🖤 ༉আসসালামু আলাইকুম 🤍🌺 \n আমি 🥰 ➤ Mohammad RANA (TOM) \n এর ভদ্র বট...😐🙈 \n FB LINK 🤖⬇️ \n https://www.facebook.com/RANA.IS.BUSY.OKAY 🖤🤍"
 			}
