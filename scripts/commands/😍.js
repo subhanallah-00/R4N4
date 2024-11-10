@@ -3,7 +3,7 @@ module.exports.config = {
   version: "1.0.2",
   permission: 2,
   credits: "nayan",
-  prefix: false,
+  prefix: "true",
   description: "",
   category: "prefix",
   usages: "/jan",
