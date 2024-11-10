@@ -1,15 +1,12 @@
-const DIG = require("discord-image-generation");
-const fs = require("fs-extra");
-
 module.exports = {
   config: {
     name: "jail",
     version: "1.1",
     author: "Samir Thakuri",
-    countDown: 5,
+    prefix: "true",
+    countdown: 5,
     role: 0,
-    shortDescription: "Jail image",
-    longDescription: "Jail image",
+    description: "Jail image",
     category: "image",
     guide: {
       en: "{pn} @tag"
@@ -37,7 +34,7 @@ module.exports = {
     fs.writeFileSync(pathSave, Buffer.from(img));
     const content = args.join(' ').replace(Object.keys(event.mentions)[0], "");
     message.reply({
-      body: `${(content || "You're in jail!")} 🚔`,
+      body: `${(content || "সালা খুব তো মুরগি চুরির শখ থাক এখন জেল এ 😹!")} 🚔`,
       attachment: fs.createReadStream(pathSave)
     }, () => fs.unlinkSync(pathSave));
   }
