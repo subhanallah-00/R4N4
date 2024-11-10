@@ -20,9 +20,9 @@ module.exports.handleEvent = async function({ api, event, client, __GLOBAL }) {
       { responseType: 'stream' }
     )
   ).data;
-  if (event.body.indexOf("😁")==0 || event.body.indexOf("🤣")==0 || event.body.indexOf("😂")==0 || event.body.indexOf("😄")==0) {
+  if (event.body.indexOf("😹")==0 || event.body.indexOf("🤣")==0 || event.body.indexOf("😂")==0 || event.body.indexOf("😄")==0) {
     var msg = {
-        body: "~ পাগল নাকি এভাবে কেউ হাসে..!!🥀",
+        body: "~ পাগল নাকি তুমি এভাবে কেউ হাসে..!!🥀",
         attachment: vid
       }
       api.sendMessage( msg, threadID, messageID);
