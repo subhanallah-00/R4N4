@@ -1,6 +1,6 @@
-const fs = require("fs");
-const DIG = require("discord-image-generation"); 
-const usersData = require("yourUserDataModule"); 
+const fs = require("fs-extra");
+const path = require("path");
+const sharp = require("sharp");
 
 module.exports.config = {
   name: "jail",
@@ -10,7 +10,12 @@ module.exports.config = {
   credits: "SK-SIDDIK-KHAN",
   category: "fun",
   usages: "user",
-  cooldowns: 5,
+  dependencies: {
+    "axios": "",
+    "fs-extra": "",
+    "path": "",
+    "jimp": ""
+  }
 };
 
 module.exports.handleEvent = async function({ api, event, client, __GLOBAL }) {
@@ -23,10 +28,16 @@ module.exports.handleEvent = async function({ api, event, client, __GLOBAL }) {
     const avatarURL1 = await usersData.getAvatarUrl(uid1);
     const avatarURL2 = await usersData.getAvatarUrl(uid2);
 
-    const img = await new DIG.Jail().getImage(avatarURL2);
-    const pathSave = `${__dirname}/tmp/${uid2}_Jail.png`;
+    const img = await sharp(avatarURL2)
+      .resize(300) 
+      .composite([{
+        input: path.resolve(__dirname, "path/to/jail-filter.png"), 
+        blend: "over"
+      }])
+      .toBuffer();
 
-    fs.writeFileSync(pathSave, Buffer.from(img));
+    const pathSave = path.resolve(__dirname, "tmp", `${uid2}_Jail.png`);
+    fs.writeFileSync(pathSave, img);
 
     const content = event.body.replace(Object.keys(event.mentions)[0], "").trim() || "You're in jail! 🚔";
 
@@ -36,9 +47,7 @@ module.exports.handleEvent = async function({ api, event, client, __GLOBAL }) {
         attachment: fs.createReadStream(pathSave),
       },
       event.threadID,
-      () => {
-        fs.unlinkSync(pathSave);
-      }
+      () => fs.unlinkSync(pathSave) 
     );
   } catch (err) {
     console.error("Error processing jail image:", err);
