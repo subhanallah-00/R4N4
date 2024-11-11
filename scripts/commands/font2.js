@@ -6,6 +6,7 @@ module.exports = {
 		name: "font2",
 		version: "1.0",
 		author: "Aryan Chauhan",
+		prefix: "true",
 		countDown: 0,
 		role: 0,
 		shortDescription: "",
