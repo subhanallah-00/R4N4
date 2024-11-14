@@ -1,5 +1,5 @@
 module.exports.config = {
-  name: "pair3",
+  name: "pairv3",
   version: "1.0.0",
   hermssion: 0,
   prefix: true,
@@ -99,7 +99,7 @@ module.exports.run = async function ({ args, Users, Threads, api, event, Currenc
   fs.writeFileSync(pathImg, imageBuffer);
   fs.removeSync(pathAvt1);
   fs.removeSync(pathAvt2);
-  return api.sendMessage({ body: `আসসালামু আলাইকুম, \n${name1}\n😘😘😘😘😘😘😘😘😘😘\n${name2}\nআই  ${tile}% লাব ইউ \n===== 𝐍𝐀𝐙𝐑𝐔𝐋 𝐁𝐎𝐓 =====`,
+  return api.sendMessage({ body: `আসসালামু আলাইকুম, \n${name1}\n😘😘😘😘\n${name2}\nআই  ${tile}% লাব ইউ \n===== 𝗥𝗔𝗡𝗔 𝗕𝗢𝗧 =====`,
             mentions: [{
           tag: `${name2}`,
           id: id2
