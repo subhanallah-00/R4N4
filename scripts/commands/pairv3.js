@@ -1,5 +1,5 @@
 module.exports.config = {
-  name: "pairv3",
+  name: "lvtest3",
   version: "1.0.0",
   hermssion: 0,
   prefix: true,
