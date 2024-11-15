@@ -1,18 +1,13 @@
-//học ăn học nói đừng học đâu cái thói thay cre 
 module.exports.config = {
-	name: "zuck",
-	version: "1.0.1",
-	hasPermssion: 0,
-	credits: "aizen",
-	description: "zuck [text]",
-	commandCategory: "edit-image",
-	usages: "zuck [text]",
-	cooldowns: 10,
-	dependencies: {
-		"canvas":"",
-		 "axios":"",
-		 "fs-extra":""
-	}
+  name: "zuck", 
+  version: "1.0.0", 
+  permission: 0,
+  credits: "Mohammad Rana",
+  description: "example",
+  prefix: true,
+  category: "Love", 
+  usages: "/zuck", 
+  cooldowns: 5,
 };
 
 module.exports.wrapText = (ctx, text, maxWidth) => {
@@ -58,18 +53,18 @@ module.exports.run = async function({ api, event, args }) {
 	let canvas = createCanvas(baseImage.width, baseImage.height);
 	let ctx = canvas.getContext("2d");
 	ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
-	ctx.font = "400 18px Arial";
+	ctx.font = "400 45px Arial";
 	ctx.fillStyle = "#000000";
 	ctx.textAlign = "start";
-	let fontSize = 50;
-	while (ctx.measureText(text).width > 1200) {
+	let fontSize = 250;
+	while (ctx.measureText(text).width > 2600) {
 		fontSize--;
-		ctx.font = `400 ${fontSize}px Arial`;
+		ctx.font = `400 ${fontSize}px Arial, sans-serif`;
 	}
-	const lines = await this.wrapText(ctx, text, 470);
-	ctx.fillText(lines.join('\n'), 15,75);//comment
+	const lines = await this.wrapText(ctx, text, 1160);
+	ctx.fillText(lines.join('\n'), 60,165);//comment
 	ctx.beginPath();
 	const imageBuffer = canvas.toBuffer();
 	fs.writeFileSync(pathImg, imageBuffer);
 return api.sendMessage({ attachment: fs.createReadStream(pathImg) }, threadID, () => fs.unlinkSync(pathImg), messageID);        
-    }
+		}
