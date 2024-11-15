@@ -18,7 +18,7 @@ module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
      react.includes("love") || 
 react.includes("baby") || react.includes("xan") || react.includes("xanu") || react.includes("sona") ||
 react.includes("xn") ||
-react.includes("xona") || react.includes("xuna") || react.includes("ভালবাসি") ||
+react.includes("xona") || react.includes("💋") || react.includes("ভালবাসি") ||
 react.includes("ব্রেকাপ") ||
 react.includes("break up") ||
 react.includes("sex") ||
@@ -26,7 +26,7 @@ react.includes("nude") ||
 react.includes("Fucking") ||
 react.includes("🤤")) {
 		var msg = {
-				body: "- ভালোবাসা নামক আব্লামি করতে মন চাইলে ফারহান  এর ইনবক্স চলে জাও-!!🌚"
+				body: "- ভালোবাসা নামক আব্লামি করতে মন চাইলে রানা এর ইনবক্স চলে জাও-!!😌👍"
 			}
 			api.sendMessage(msg, threadID, messageID);
     api.setMessageReaction("😤", event.messageID, (err) => {}, true)
