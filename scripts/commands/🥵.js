@@ -2,11 +2,11 @@ module.exports.config = {
 	name: "🥵",
 	version: "1.0.2",
 	permission: 2,
-	credits: "nayan cp by rana",
+	credits: "nayan",
 	prefix: true,
 	description: "",
 	category: "without prefix",
-	usages: "[tag]",
+	usages: "🥵",
 	cooldowns: 5
 };
 
