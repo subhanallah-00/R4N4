@@ -60,19 +60,20 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 ┏━━━━━━━━━━━━━━━━━━━┓  
 ┃ CONNECTED SUCCESFUL 
 ┃ ALLOW IN THIS GROUP
-┃━━━━━━━━━━━━━━━━━━━➤\n\nTO VIEW ANY COMMAND Use👉${global.config.PREFIX}help\nSee command👉 ${global.config.PREFIX}command
-\n\EXAMPLE:👇\n${global.config.PREFIX}admin (information)\n${global.config.PREFIX}islam (video)\n${global.config.PREFIX}tik (link)\n${global.config.PREFIX}fbvideo (link)
+┃━━━━━━━━━━━━━━━━━━━➤\n┃\n┃ TO VIEW ANY COMMAND Use👉${global.config.PREFIX}help\n┃ See command👉 ${global.config.PREFIX}command
+\n┃\n┃ Example:👇\n┃ ${global.config.PREFIX}admin (information)\n┃ ${global.config.PREFIX}islam (video)\n┃ ${global.config.PREFIX}tik (link)\n┃ ${global.config.PREFIX}fbvideo (link)
 ┃━━━━[𝗔𝗗𝗠𝗜𝗡  𝗜𝗡𝗙𝗢]━━━━┓
-┃ FOR ANY COMPLAINTS OR CONTACT BOT OPERATOR 
+┃ FOR ANY COMPLAINTS OR 
+┃ CONTACT BOT OPERATOR
 ┃
 ┃━➤Deb: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔 
 ┃
-┃━➤FB Link:https://www.facebook.com/
+┃━➤FB: https://facebook.com/100063487970328
 ┃
-┃━➤WHATSAPP: wa.me/+8801752865115
+┃━➤WP: wa.me/+8801752865115
 ┃
 ┃━➤EMAIL: rsrana600@gmail.com 
-┗━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛`, attachment: fs.createReadStream(gifPath)}, threadID));
+┗━━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛`, attachment: fs.createReadStream(gifPath)}, threadID));
   }})
 .catch(error => {
     console.error(error);
