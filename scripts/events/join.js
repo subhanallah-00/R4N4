@@ -48,8 +48,8 @@ module.exports.run = async function({ api, event, Users }) {
   if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     //api.changeNickname(`𝗕𝗢𝗧 ${(!global.config.BOTNAME) ? "Buddy" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
 
-    let gifUrl = 'hlhttps://i.imgur.com/tKp1bJG.mp4';
-let gifPath = __dirname + '/Nayan/join/join.mp4';
+    let gifUrl = 'https://i.postimg.cc/SNQXkB0y/lv-0-20231018174834.gif';
+let gifPath = __dirname + '/Nayan/join/join.gif';
 
 axios.get(gifUrl, { responseType: 'arraybuffer' })
 .then(response => {
@@ -57,20 +57,22 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
   if (event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     api.changeNickname(`[ ${global.config.PREFIX} ] • ➠${(!global.config.BOTNAME) ? "bot" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
     return api.sendMessage("⎯͢⎯⃝🤍 জা্ঁন্ঁ মো্ঁই্ আ্ঁই্ঁসা্ঁ প্ঁর্ঁছি্ঁ রাৃঁনাৃঁরৃঁ ব্ঁট্ঁ তো্ঁমা্ঁদে্ঁর্ঁ সা্ঁথে্ঁ আঁলঁগাঁ পিঁরিঁতঁ কঁরঁতেঁ..🤭⎯͢⎯⃝😁", event.threadID, () => api.sendMessage({ body: `${global.config.BOTNAME} CONNECTED«\n\nAssalamualaykum☘️
-┏━━━━━━━━━━━━━━━━━━┓
-┃BOT CONNECTED SUCCESFUL  
-┃APPROVAL ALLOW IN THIS GROUP
+┏━━━━━━━━━━━━━━━━━━━┓  
+┃ CONNECTED SUCCESFUL 
+┃ ALLOW IN THIS GROUP
+┃━━━━━━━━━━━━━━━━━━━➤\n\nTO VIEW ANY COMMAND Use👉${global.config.PREFIX}help\nSee command👉 ${global.config.PREFIX}command
+\n\EXAMPLE:👇\n${global.config.PREFIX}admin (information)\n${global.config.PREFIX}islam (video)\n${global.config.PREFIX}tik (link)\n${global.config.PREFIX}fbvideo (link)
+┃━━━━[𝗔𝗗𝗠𝗜𝗡  𝗜𝗡𝗙𝗢]━━━━┓
+┃ FOR ANY COMPLAINTS OR CONTACT BOT OPERATOR 
 ┃
-┃━━━━━━━━━━━━━━━━━➤\n\n┃ VIEW ANY COMMAND Use👉${global.config.PREFIX}help\n┃ command👉 ${global.config.PREFIX}command
-\n\n┃ EXAMPLE:👇\n┃ ${global.config.PREFIX}admin (information)\n┃ ${global.config.PREFIX}islam (video)\n┃ ${global.config.PREFIX}tik (link)\n┃ ${global.config.PREFIX}fbvideo (link)
-┃━━━━[𝗔𝗗𝗠𝗜𝗡  𝗜𝗡𝗙𝗢]━━━┓
-┃ FOR ANY COMPLAINTS OR  
-┃CONTACT BOT OPERATOR 
-┃━➤ Dev: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔
-┃━➤Fb Link: https://facebook.com/rana.is.busy.okay
-┃━➤WHATSAPP : wa.me/+8801752865115
-┃━➤ EMAIL: rsrana609@gmail.com 
-┗━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛ `, attachment: fs.createReadStream(gifPath)}, threadID));
+┃━➤Deb: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔 
+┃
+┃━➤FB Link:https://www.facebook.com/
+┃
+┃━➤WHATSAPP: wa.me/+8801752865115
+┃
+┃━➤EMAIL: rsrana600@gmail.com 
+┗━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛`, attachment: fs.createReadStream(gifPath)}, threadID));
   }})
 .catch(error => {
     console.error(error);
@@ -180,4 +182,4 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
       }
     } catch (e) { return console.log(e) };
   }
-}
+                   }
