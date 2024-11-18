@@ -44,7 +44,6 @@ module.exports.run = async function({ api, event, Users }) {
   let threadName = threadInfo.threadName;
   if (!event.logMessageData.addedParticipants || !Array.isArray(event.logMessageData.addedParticipants)) {
     return;
-  }
   if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     //api.changeNickname(`𝗕𝗢𝗧 ${(!global.config.BOTNAME) ? "Buddy" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
 
@@ -57,22 +56,23 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
   if (event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     api.changeNickname(`[ ${global.config.PREFIX} ] • ➠${(!global.config.BOTNAME) ? "bot" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
     return api.sendMessage("চলে এসেছি আমি পিচ্চি নয়ন তোমাদের মাঝে🤭!", event.threadID, () => api.sendMessage({ body: `${global.config.BOTNAME} CONNECTED«\n\nAssalamualaykum☘️
-┏━━━━━━━━━━━━━━━━━━━━━━┓  
+┏━━━━━━━━━━━━━━━━━━┓  
 ┃  BOT CONNECTED SUCCESFUL. 
 ┃
 ┃  ALLOW IN THIS GROUP.
-┃━━━━━━━━━━━━━━━━━━━━━➤\n\nTO VIEW ANY COMMAND Use👉${global.config.PREFIX}help\nSee command👉 ${global.config.PREFIX}command
-\n\EXAMPLE:👇\n${global.config.PREFIX}admin (information)\n${global.config.PREFIX}islam (video)\n${global.config.PREFIX}tik (link)\n${global.config.PREFIX}fbvideo (link)
-<------------------------------>
-AND FOR ANY COMPLAINTS OR CONTACT BOT OPERATOR 
-
-┃━➤𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔 
+┃━━━━━━━━━━━━━━━━━➤\n\n┃ TO VIEW ANY COMMAND Use👉${global.config.PREFIX}help\n┃ See command👉 ${global.config.PREFIX}command
+\n\n┃ EXAMPLE:👇\n┃ ${global.config.PREFIX}admin (information)\n┃ ${global.config.PREFIX}islam (video)\n┃ ${global.config.PREFIX}tik (link)\n┃ ${global.config.PREFIX}fbvideo (link)
+┃━━━━━━━━━━━━━━━━━➤
+┃ FOR ANY COMPLAINTS OR
+┃ CONTACT BOT OPERATOR 
+┃━➤Dev: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔 
 ┃
 ┃━➤FB Link: https://facebook.com/rana.is.busy.okay
 ┃
-┃━➤WP NUMBER: wa.me/+8801752865115
+┃━➤WHATSAPP: wa.me/+8801752865115
 ┃
-┃━➤SUPPORT EMAIL: www.rsrana609@gmail.com`, attachment: fs.createReadStream(gifPath)}, threadID));
+┃━➤SUPPORT MAIL: www.rsrana609@gmail.com 
+┗━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛`, attachment: fs.createReadStream(gifPath)}, threadID));
   }})
 .catch(error => {
     console.error(error);
