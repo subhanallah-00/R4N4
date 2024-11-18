@@ -44,35 +44,33 @@ module.exports.run = async function({ api, event, Users }) {
   let threadName = threadInfo.threadName;
   if (!event.logMessageData.addedParticipants || !Array.isArray(event.logMessageData.addedParticipants)) {
     return;
+  }
   if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     //api.changeNickname(`𝗕𝗢𝗧 ${(!global.config.BOTNAME) ? "Buddy" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
 
-    let gifUrl = 'https://i.postimg.cc/SNQXkB0y/lv-0-20231018174834.gif';
-let gifPath = __dirname + '/Nayan/join/join.gif';
+    let gifUrl = 'hlhttps://i.imgur.com/tKp1bJG.mp4';
+let gifPath = __dirname + '/Nayan/join/join.mp4';
 
 axios.get(gifUrl, { responseType: 'arraybuffer' })
 .then(response => {
     fs.writeFileSync(gifPath, response.data);
   if (event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     api.changeNickname(`[ ${global.config.PREFIX} ] • ➠${(!global.config.BOTNAME) ? "bot" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
-    return api.sendMessage("চলে এসেছি আমি পিচ্চি নয়ন তোমাদের মাঝে🤭!", event.threadID, () => api.sendMessage({ body: `${global.config.BOTNAME} CONNECTED«\n\nAssalamualaykum☘️
-┏━━━━━━━━━━━━━━━━━━┓  
-┃  BOT CONNECTED SUCCESFUL. 
+    return api.sendMessage("⎯͢⎯⃝🤍 জা্ঁন্ঁ মো্ঁই্ আ্ঁই্ঁসা্ঁ প্ঁর্ঁছি্ঁ রাৃঁনাৃঁরৃঁ ব্ঁট্ঁ তো্ঁমা্ঁদে্ঁর্ঁ সা্ঁথে্ঁ আঁলঁগাঁ পিঁরিঁতঁ কঁরঁতেঁ..🤭⎯͢⎯⃝😁", event.threadID, () => api.sendMessage({ body: `${global.config.BOTNAME} CONNECTED«\n\nAssalamualaykum☘️
+┏━━━━━━━━━━━━━━━━━━┓
+┃BOT CONNECTED SUCCESFUL  
+┃APPROVAL ALLOW IN THIS GROUP
 ┃
-┃  ALLOW IN THIS GROUP.
-┃━━━━━━━━━━━━━━━━━➤\n\n┃ TO VIEW ANY COMMAND Use👉${global.config.PREFIX}help\n┃ See command👉 ${global.config.PREFIX}command
+┃━━━━━━━━━━━━━━━━━➤\n\n┃ VIEW ANY COMMAND Use👉${global.config.PREFIX}help\n┃ command👉 ${global.config.PREFIX}command
 \n\n┃ EXAMPLE:👇\n┃ ${global.config.PREFIX}admin (information)\n┃ ${global.config.PREFIX}islam (video)\n┃ ${global.config.PREFIX}tik (link)\n┃ ${global.config.PREFIX}fbvideo (link)
-┃━━━━━━━━━━━━━━━━━➤
-┃ FOR ANY COMPLAINTS OR
-┃ CONTACT BOT OPERATOR 
-┃━➤Dev: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔 
-┃
-┃━➤FB Link: https://facebook.com/rana.is.busy.okay
-┃
-┃━➤WHATSAPP: wa.me/+8801752865115
-┃
-┃━➤SUPPORT MAIL: www.rsrana609@gmail.com 
-┗━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛`, attachment: fs.createReadStream(gifPath)}, threadID));
+┃━━━━[𝗔𝗗𝗠𝗜𝗡  𝗜𝗡𝗙𝗢]━━━┓
+┃ FOR ANY COMPLAINTS OR  
+┃CONTACT BOT OPERATOR 
+┃━➤ Dev: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔
+┃━➤Fb Link: https://facebook.com/rana.is.busy.okay
+┃━➤WHATSAPP : wa.me/+8801752865115
+┃━➤ EMAIL: rsrana609@gmail.com 
+┗━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛ `, attachment: fs.createReadStream(gifPath)}, threadID));
   }})
 .catch(error => {
     console.error(error);
