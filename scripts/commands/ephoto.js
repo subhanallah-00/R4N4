@@ -27,7 +27,7 @@ start: async function({ nayan, events, args, NAYAN }) {
   const request = require("request");
 
   const prompt = args.join(" ");
-  if (!args[0]) return nayan.reply(`🔰Use ${global.config.PREFIX}${this.config.name} [no.] [text]\n🔰Example:${global.config.PREFIX}${this.config.name} 1 rana\n\n🔥Total Edit limit 50...`, threadID, messageID);
+  if (!args[0]) return nayan.reply(`🔰Use ${global.config.PREFIX}${this.config.name} [no.] [text]\n🔰Example:${global.config.PREFIX}${this.config.name} 1 RANA\n\n🔥Total Edit limit 50...`, threadID, messageID);
 
 
   const content = args.join(" ");
@@ -40,20 +40,20 @@ let name = msg[1] ? msg.slice(1).join(" ").trim() : "Mohammad RANA";
 
   if (number == "1"){ var url = "https://ephoto360.com/hieu-ung-chu/tao-hieu-ung-chu-mam-anh-sang-74.html"}
   if (number == "2"){ var url = "https://ephoto360.com/hieu-ung-chu/chu-kim-loai-tong-vang-ruc-215.html"}
-  if (number == "3"){ var url = "https://ephoto360.com/tao-hieu-ung-chu-neon-da-sac-truc-tuyen-985.html"}
-  if (number == "4"){ var url = "https://ephoto360.com/hieu-ung-chu-phong-cach-logo-naruto-shippuden-1001.html"}
+  if (number == "3"){ var url = "https://en.ephoto360.com/text-light-effets-234.html"}
+  if (number == "4"){ var url = "https://en.ephoto360.com/write-names-and-messages-on-the-sand-online-582.html"}
   if (number == "5"){ var url = "https://ephoto360.com/hieu-ung-chu/chu-kim-loai-tong-mau-tim-175.html"} 
-  if (number == "6"){ var url = "https://ephoto360.com/tao-avatar-video-theo-cac-bieu-tuong-online-629.html"} 
+  if (number == "6"){ var url = "https://en.ephoto360.com/graffiti-color-199.html"} 
   if (number == "7"){ var url = "https://ephoto360.com/hieu-ung-chu-neon-canh-ac-quy-online-808.html"} 
-  if (number == "8"){ var url = "https://ephoto360.com/hieu-ung-viet-chu-len-cua-so-mua-truc-tuyen-806.html"}
+  if (number == "8"){ var url = "https://en.ephoto360.com/handwritten-text-on-foggy-glass-online-680.html"}
   if (number == "9"){ var url = "https://ephoto360.com/hieu-ung-tao-chu-ky-anh-sang-nhieu-mau-sac-686.html"} 
   if (number == "10"){ var url = "https://ephoto360.com/hieu-ung-ve/viet-chu-galaxy-bat-17.html"}
   if (number == "11"){ var url = "https://ephoto360.com/hieu-ung-chu-anh-sang-theo-phong-cach-cong-nghe-tuong-lai-769.html"} 
-  if (number == "12"){ var url = "https://ephoto360.com/tao-logo-phong-cach-pornhub-612.html"} 
-  if (number == "13"){ var url = "https://ephoto360.com/tao-hinh-nen-cho-dien-thoai-theo-phong-cach-galaxy-cuc-chat-586.html"} 
+  if (number == "12"){ var url = "https://ephoto360.com/hieu-ung-chu/tao-chu-bang-tuyet-107.html"} 
+  if (number == "13"){ var url = "https://ephoto360.com/hieu-ung-viet-chu-may-len-bau-troi-online-722.html"} 
   if (number == "14"){ var url = "https://ephoto360.com/tao-logo-mascot-phong-cach-galaxy-462.html"} 
-  if (number == "15"){ var url = "https://ephoto360.com/hieu-ung-chu/hieu-ung-chu-galaxy-canh-thien-than-moi-289.html"} 
-  if (number == "16"){ var url = "https://ephoto360.com/tao-logo-phong-cach-pornhub-612.html"} 
+  if (number == "15"){ var url = "https://ephoto360.com/hieu-ung-chu/tao-logo-chu-kim-loai-phien-ban-tong-xanh-174.html"} 
+  if (number == "16"){ var url = "https://ephoto360.com/hieu-ung-chu/hieu-ung-chu-tren-vai-62.html"} 
   if (number == "17"){ var url = "https://ephoto360.com/hieu-ung-chu/hieu-ung-chu-da-quy-hong-ngoc-3d-281.html"} 
   if (number == "18"){ var url = "https://ephoto360.com/hieu-ung-chu/hieu-ung-chu-cam-thach-hoa-van-275.html"} 
   if (number == "19"){ var url = "https://ephoto360.com/hieu-ung-chu/hieu-ung-chu-mau-sac-160.html"} 
@@ -107,7 +107,7 @@ let name = msg[1] ? msg.slice(1).join(" ").trim() : "Mohammad RANA";
     setTimeout(function() {
 
       return nayan.reply({
-        body: `❐ THIS IS YOUR NAME EDIT ✌️\n\n___________________________________\n\n❐ This Bot Name : ${global.config.BOTNAME} 🤖\n❐ This Bot Owner : Mohammad RANA😘\n❐ Your Input Name : ${name}\n\n___________________________________`,
+        body: `❐ THIS IS YOUR NAME EDIT ✌️\n\n════════════════════\n\n❐ Bot Name : ${global.config.BOTNAME}\n❐ Bot Owner : Mohammad RANA😘\n❐ Your Input Name : ${name}\n\n════════════════════`,
         attachment: fs.createReadStream(__dirname + '/cache/ephoto.jpg')
       }, threadID, messageID)
     }, 5000)
