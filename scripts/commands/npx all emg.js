@@ -1,10 +1,10 @@
 const fs = require("fs");
-module.exports = {
+rts = {
   config:{
   name: "npx",
         version: "1.0.1",
         prefix: false,
-  permssion: 2,
+  permssion: 0,
   credits: "farhan", 
   description: "Fun",
   category: "no prefix",
@@ -26,7 +26,7 @@ const media = (
     )
   ).data;
 
-  if (body.indexOf("😗")==0 || body.indexOf("🫣")==0 || body.indexOf("🌺")==0 || body.indexOf("😟")==0 || body.indexOf("🧐")==0 || body.indexOf("🫶")==0 || body.indexOf("💘")==0 || body.indexOf("💕")==0 || body.indexOf("💖")==0 || body.indexOf("😒")==0 || body.indexOf("😩")==0 || body.indexOf("😯")==0 || body.indexOf("😫")==0 || body.indexOf("🤡")==0 || body.indexOf("🙈")==0 || body.indexOf("🙀")==0 || body.indexOf("🖤")==0 || body.indexOf("💥")==0 || body.indexOf("👏")==0 || body.indexOf("🤝")==0 || body.indexOf("🤷‍♂️")==0  || body.indexOf("🫡")==0 || body.indexOf("🤐")==0 || body.indexOf("🤨")==0 || body.indexOf("😐")==0 || body.indexOf("😶")==0 || body.indexOf("😑")==0 || body.indexOf("😮‍💨")==0 || body.indexOf("🫥")==0 || body.indexOf("🥴")==0 || body.indexOf("😵")==0 || body.indexOf("🤗")==0 || body.indexOf("🤷‍♀️")==0 || body.indexOf("🤕")==0 || body.indexOf("😎")==0 || body.indexOf("😦")==0 || body.indexOf("😓")==0 || body.indexOf("😖")==0 || body.indexOf("😈")==0 || body.indexOf("👿")==0 || body.indexOf("😻")==0 || body.indexOf("💔")==0 || body.indexOf("🧡")==0 || body.indexOf("🫦")==0 || body.indexOf("🤦‍♂️")==0 || body.indexOf("🤦‍♀️")==0 || body.indexOf("🙆‍♂️")==0 || body.indexOf("🙆‍♀️")==0 || body.indexOf("💏")==0 || body.indexOf("🗣️")==0 || body.indexOf("🫂")==0 || body.indexOf("🐒")==0 || body.indexOf("🐸")==0 || body.indexOf("🏵️")==0 || body.indexOf("🌹")==0 || body.indexOf("🌷")==0 || body.indexOf("🍁")==0 || body.indexOf("🌝")==0 || body.indexOf("⭐")==0 || body.indexOf("💌")==0 || body.indexOf("😞")==0 || body.indexOf("☹️")==0 || body.indexOf("😕")==0 || body.indexOf("😏")==0 || body.indexOf("🤨")==0 || body.indexOf("😔")==0 || body.indexOf("😇")==0 || body.indexOf("🤫")==0) {
+  if (body.indexOf("😙")==0 || body.indexOf("🫣")==0 || body.indexOf("🌺")==0 || body.indexOf("😟")==0 || body.indexOf("🧐")==0 || body.indexOf("🫶")==0 || body.indexOf("💘")==0 || body.indexOf("💕")==0 || body.indexOf("💖")==0 || body.indexOf("😒")==0 || body.indexOf("😩")==0 || body.indexOf("😯")==0 || body.indexOf("😫")==0 || body.indexOf("🤡")==0 || body.indexOf("🙈")==0 || body.indexOf("🙀")==0 || body.indexOf("🖤")==0 || body.indexOf("💥")==0 || body.indexOf("👏")==0 || body.indexOf("🤝")==0 || body.indexOf("🤷‍♂️")==0  || body.indexOf("🫡")==0 || body.indexOf("🤐")==0 || body.indexOf("🤨")==0 || body.indexOf("😐")==0 || body.indexOf("😶")==0 || body.indexOf("😑")==0 || body.indexOf("😮‍💨")==0 || body.indexOf("🫥")==0 || body.indexOf("🥴")==0 || body.indexOf("😵")==0 || body.indexOf("🤗")==0 || body.indexOf("🤷‍♀️")==0 || body.indexOf("🤕")==0 || body.indexOf("😎")==0 || body.indexOf("😦")==0 || body.indexOf("😓")==0 || body.indexOf("😖")==0 || body.indexOf("😈")==0 || body.indexOf("👿")==0 || body.indexOf("😻")==0 || body.indexOf("💔")==0 || body.indexOf("🧡")==0 || body.indexOf("🫦")==0 || body.indexOf("🤦‍♂️")==0 || body.indexOf("🤦‍♀️")==0 || body.indexOf("🙆‍♂️")==0 || body.indexOf("🙆‍♀️")==0 || body.indexOf("💏")==0 || body.indexOf("🗣️")==0 || body.indexOf("🫂")==0 || body.indexOf("🐒")==0 || body.indexOf("🐸")==0 || body.indexOf("🏵️")==0 || body.indexOf("🌹")==0 || body.indexOf("🌷")==0 || body.indexOf("🍁")==0 || body.indexOf("🌝")==0 || body.indexOf("⭐")==0 || body.indexOf("💌")==0 || body.indexOf("😞")==0 || body.indexOf("☹️")==0 || body.indexOf("😕")==0 || body.indexOf("😏")==0 || body.indexOf("🤨")==0 || body.indexOf("😔")==0 || body.indexOf("😇")==0 || body.indexOf("🤫")==0) {
     var msg = {
         body: "•⎯͢⎯⃝🙂_আমরা যাদেরকে ভালোবাসি তারা আমাদের জীবন থেকে হারিয়ে যাবেই..! 🙂\n       _এটাই প্রকৃতির নিয়ম⎯͢⎯⃝🤍🫶🌺!-:))",
         attachment: media
