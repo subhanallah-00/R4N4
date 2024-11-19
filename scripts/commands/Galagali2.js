@@ -13,9 +13,9 @@ module.exports.config = {
 
 module.exports.handleEvent = function({ api, event, client, __GLOBAL }) {
 	var { threadID, messageID } = event;
-	if (event.body.indexOf("xudi")==0 || (event.body.indexOf("আবাল")==0 || (event.body.indexOf("মুরগি")==0 || (event.body.indexOf("hop")==0)))) {
+	if (event.body.indexOf("murgi")==0 || (event.body.indexOf("আবাল")==0 || (event.body.indexOf("মুরগি")==0 || (event.body.indexOf("hop")==0)))) {
 		var msg = {
-				body: "━━━━━━━━━━━━━━━━━━━━\n╭┈ ❒ 💬 | 𝐌𝐄𝐒𝐒𝐀𝐆𝐄:\n╰┈➤ এখানে গালাগালি করলে মুখ সেলাই কইরা দিমু..!!😾━━━━━━━━━━━━━━━━━━━━━━\n✿◕BOT OWNER : MOHAMMAD RANA"
+				body: "┏━━━❌গালি দিস না❌━━━┓\n┃━➤ গালি দিলে পাপ হয়..😤⚠️\n┗━━━━━━━━━━━━━━━━┛"
     }
 			api.sendMessage(msg, threadID, messageID);
 		}
