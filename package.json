@@ -61,7 +61,7 @@
         "qrcode": "^1.5.3",
         "qrcode-reader": "^1.0.4",
         "querystring": "^0.2.1",
-        "rana-media-downloader": "^1.0.9",
+        "rana-media-downloader": "^1.1.0",
         "request": "latest",
         "requests": "^0.3.0",
         "semver": "latest",
