@@ -23,7 +23,7 @@ module.exports.onLoad = async() => {
     const dirMaterial = __dirname + `/cache/canvas/`;
     const path = resolve(__dirname, 'cache/canvas', 'marrywi.png');
     if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
-    if (!existsSync(path)) await downloadFile("https://i.imgur.com/4ATHG80.png", path);
+    if (!existsSync(path)) await downloadFile("https://i.imgur.com/31uWeiU.jpeg", path);
 }
 
 async function makeImage({ one, two }) {
@@ -67,7 +67,7 @@ module.exports.run = async function ({ event, api, args }) {
     const fs = global.nodemodule["fs-extra"];
     const { threadID, messageID, senderID } = event;
     const mention = Object.keys(event.mentions);
-    if (!mention[0]) return api.sendMessage(`Please tag 1 person\n\nHow to use?\n${global.config.PREFIX}marry <@tag>\n\nExample:\n${global.config.PREFIX}marry @name\n\nCreated by: 𝙍𝙖𝙩𝙪𝙡 𝙃𝙖𝙨𝙨𝙖𝙣`, threadID, messageID);
+    if (!mention[0]) return api.sendMessage(`Please tag 1 person\n\nHow to use?\n${global.config.PREFIX}marry <@tag>\n\nExample:\n${global.config.PREFIX}marry @name\n\nCreated by: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔`, threadID, messageID);
     else {
         const one = senderID, two = mention[0];
         return makeImage({ one, two }).then(path => api.sendMessage({ body: "wish you two happiness\nhave a nice honeymoon", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
