@@ -3,6 +3,7 @@ module.exports.config = {
 	version: "1.0.1",
 	permssion: 0,
 	credits: "MR-RANA",
+	prefix : true,
 	description: "calculator",
 	category: "study",
 	usages: "math 1 + 2",
