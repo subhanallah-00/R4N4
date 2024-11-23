@@ -23,7 +23,7 @@ module.exports.onLoad = async() => {
     const dirMaterial = __dirname + `/cache/canvas/`;
     const path = resolve(__dirname, 'cache/canvas', 'marrywi.png');
     if (!existsSync(dirMaterial + "canvas")) mkdirSync(dirMaterial, { recursive: true });
-    if (!existsSync(path)) await downloadFile("https://i.imgur.com/31uWeiU.jpeg", path);
+    if (!existsSync(path)) await downloadFile("https://i.imgur.com/WWDxadr.jpeg", path);
 }
 
 async function makeImage({ one, two }) {
@@ -46,7 +46,7 @@ async function makeImage({ one, two }) {
     
     let circleOne = await jimp.read(await circle(avatarOne));
     let circleTwo = await jimp.read(await circle(avatarTwo));
-    batgiam_img.resize(926, 736).composite(circleOne.resize(60, 60), 200, 23).composite(circleTwo.resize(60, 60), 136, 40);
+    batgiam_img.resize(926, 280).composite(circleOne.resize(60, 60), 200, 23).composite(circleTwo.resize(60, 60), 136, 40);
     
     let raw = await batgiam_img.getBufferAsync("image/png");
     
