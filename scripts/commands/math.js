@@ -55,7 +55,7 @@ module.exports.run = async function ({ api, event, args }) {
 	var out = (msg) => api.sendMessage(msg, threadID, messageID);
 	var text = [], key = global.configModule.math.WOLFRAM;
 	var content = (event.type == 'message_reply') ? event.messageReply.body : args.join(" ");
-	if (!content) return out(`Missing input\n\nHow to use?\n${global.config.PREFIX}math <input>\n\nExample:\n${global.config.PREFIX}math 1 + 1\n\nCreated by: 𝙍𝙖𝙩𝙪𝙡 𝙃𝙖𝙨𝙨𝙖𝙣`);
+	if (!content) return out(`Missing input\n\nHow to use?\n${global.config.PREFIX}math <input>\n\nExample:\n${global.config.PREFIX}math 1 + 1\n\nCreated by: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔`);
 	else if (content.indexOf("-p") == 0) {
 		try {
 			content = "primitive " + content.slice(3, content.length);
