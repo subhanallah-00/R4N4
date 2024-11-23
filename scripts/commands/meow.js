@@ -1,0 +1,28 @@
+module.exports.config = {
+	name: "meow",
+	version: "1.0.1",
+	prefix : true,
+	permssion: 0,
+	credits: "𝙈𝙧𝙏𝙤𝙢𝙓𝙭𝙓",
+	description: "See Neko",
+	category: "Edit-IMG",
+	usages: "meow [Text]",
+	cooldowns: 5,
+	
+	};
+			
+module.exports.run = async ({ api, event }) => {
+	const axios = require('axios');
+	const request = require('request');
+	const fs = require("fs");
+	axios.get('http://aws.random.cat/meow').then(res => {
+	let ext = res.data.file.substring(res.data.file.lastIndexOf(".") + 1);
+	
+	let callback = function () {
+					api.sendMessage({
+						attachment: fs.createReadStream(__dirname + `/cache/meow.${ext}`)
+					}, event.threadID, () => fs.unlinkSync(__dirname + `/cache/meow.${ext}`), event.messageID);
+				};
+				request(res.data.file).pipe(fs.createWriteStream(__dirname + `/cache/meow.${ext}`)).on("close", callback);
+			})
+                                                                            }
