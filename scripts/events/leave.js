@@ -15,8 +15,8 @@ module.exports.run = async function({ api, event, Users, Threads }) {
   const data = global.data.threadData.get(parseInt(threadID)) || (await Threads.getData(threadID)).data;
   const name = global.data.userName.get(event.logMessageData.leftParticipantFbId) || await Users.getNameUser(event.logMessageData.leftParticipantFbId);
   const type = (event.author == event.logMessageData.leftParticipantFbId) ? " কিরে কোথায় পালাস আমি রানা bot থাকতে পালাতে পারবি না 🙈😽 দারা তোরে আবার এড দিবো 🤨😁" : "বাল পাকনামির কারণে কিক খাইলো..🤧";
-  const path = join(__dirname, "Nayan", "leavemp4");
-  const gifPath = join(path, `l.mp4`);
+  const path = join(__dirname, "Nayan", "leaveGif");
+  const gifPath = join(path, `l.gif`);
   let msg, formPush;
 
   // Create directory if it does not exist
