@@ -3,7 +3,7 @@ module.exports.config = {
     version: "7.3.1",
     permssion: 0,
     prefix: true,
-    credits: "MR-RANA",///don't change my Credit Coz i Edit 
+    credits: "MR-RANA",///don't change my Credit Cuz i Edit 
     description: "Get Pair From Mention",
     category: "img",
     usages: "frame",
@@ -70,6 +70,6 @@ module.exports.run = async function ({ event, api, args }) {
     if (!mention[0]) return api.sendMessage("Please mention 1 person.", threadID, messageID);
     else {
         const one = senderID, two = mention[0];
-        return makeImage({ one, two }).then(path => api.sendMessage({ body: "╭──────•◈•───────╮\n         𝗥𝗔𝗡𝗔 𝗕𝗢𝗧      \n─༅༎༅💙🌼🩷༅༎༅─\n\n⎯͢⎯⃝🩵নিজে কে নিজেরই ভালো লাগে না'রে ভাই আর অন্য কারো ভালো লাগা টা তো বিলাসিতা-😌💚🌻\n\n─༅༎༅💙🌼🩷༅༎༅─\n\n𝗠𝗔𝗗𝗘 𝗕𝗬: 𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔\n╰──────•◈•───────╯", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
+        return makeImage({ one, two }).then(path => api.sendMessage({ body: "╭──────•◈•───────╮\n─༅༎༅💙🌼🩷༅༎༅─\n\n⎯͢⎯⃝🩵নিজে কে নিজেরই ভালো লাগে না'রে ভাই আর অন্য কারো ভালো লাগা টা তো বিলাসিতা-😌💚🌻\n\n─༅༎༅💙🌼🩷༅༎༅─\n    𝗠𝗔𝗗𝗘 𝗕𝗬:\n     𝗠𝗢𝗛𝗔𝗠𝗠𝗔𝗗 𝗥𝗔𝗡𝗔\n╰──────•◈•───────╯", attachment: fs.createReadStream(path) }, threadID, () => fs.unlinkSync(path), messageID));
     }
                                       }
