@@ -1,140 +1,84 @@
 module.exports.config = {
-  name: "rankup",
-  version: "7.6.8",
-  permssion: 1,
-  prefix: true,
+  name: "uganda",
+  version: "1.0.0",
+  permssion: 0,
+  prefix : true,
   credits: "MR-RANA",
-  description: "Announce rankup for each group/user @hiramin ko muna to RANA thanks ",
-  category: "Edit-IMG",
-  dependencies: {
-    "fs-extra": ""
-  },
-  cooldowns: 5,
+  description: "White brother :v",
+  category: "text-image",
+  usages: "uganda [text 1] | [text 2]",
+  cooldowns: 5
+};
+module.exports.wrapText = (ctx, text, maxWidth) => {
+  return new Promise((resolve) => {
+    if (ctx.measureText(text).width < maxWidth) return resolve([text]);
+    if (ctx.measureText("W").width > maxWidth) return resolve(null);
+    const words = text.split(" ");
+    const lines = [];
+    let line = "";
+    while (words.length > 0) {
+      let split = false;
+      while (ctx.measureText(words[0]).width >= maxWidth) {
+        const temp = words[0];
+        words[0] = temp.slice(0, -1);
+        if (split) words[1] = `${temp.slice(-1)}${words[1]}`;
+        else {
+          split = true;
+          words.splice(1, 0, temp.slice(-1));
+        }
+      }
+      if (ctx.measureText(`${line}${words[0]}`).width < maxWidth)
+        line += `${words.shift()} `;
+      else {
+        lines.push(line.trim());
+        line = "";
+      }
+      if (words.length === 0) lines.push(line.trim());
+    }
+    return resolve(lines);
+  });
 };
 
-module.exports.handleEvent = async function({ api ,event, Currencies, Users, getText }) {
-  var {threadID, senderID } = event;
-  const { createReadStream, existsSync, mkdirSync } = global.nodemodule["fs-extra"];
+module.exports.run = async function ({ api, event, args, Users }) {
+  let { senderID, threadID, messageID } = event;
   const { loadImage, createCanvas } = require("canvas");
+  const Canvas = global.nodemodule["canvas"];
+  const request = require('request');
   const fs = global.nodemodule["fs-extra"];
   const axios = global.nodemodule["axios"];
-  let pathImg = __dirname + "/noprefix/rankup/rankup.png";
-  let pathAvt1 = __dirname + "/cache/Avtmot.png";
-  var id1 = event.senderID;
-
-
-  threadID = String(threadID);
-  senderID = String(senderID);
-
-  const thread = global.data.threadData.get(threadID) || {};
-
-  let exp = (await Currencies.getData(senderID)).exp;
-  exp = exp += 1;
-
-  if (isNaN(exp)) return;
-
-  if (typeof thread["rankup"] != "undefined" && thread["rankup"] == false) {
-    await Currencies.setData(senderID, { exp });
-    return;
-  };
-
-  const curLevel = Math.floor((Math.sqrt(1 + (4 * exp / 3) + 1) / 2));
-  const level = Math.floor((Math.sqrt(1 + (4 * (exp + 1) / 3) + 1) / 2));
-
-  if (level > curLevel && level != 1) {
-    const name = global.data.userName.get(senderID) || await Users.getNameUser(senderID);
-    var messsage = (typeof thread.customRankup == "undefined") ? msg = getText("levelup") : msg = thread.customRankup, 
-      arrayContent;
-
-    messsage = messsage
-      .replace(/\{name}/g, name)
-      .replace(/\{level}/g, level);
-
-    const moduleName = this.config.name;
-
-    var background = [
-  "https://i.ibb.co/DffbB7x/2-7-BDCACE.png",
-  "https://i.ibb.co/606p1ZF/1-C0-CF112.png",
-  "https://i.ibb.co/54b5KY6/3-10100-BC.png",
-  "https://i.ibb.co/4RHd3mM/4-AB4-CF2-B.png",
-  "https://i.ibb.co/7WHKF0H/9-498-C5-E0.png",
-  "https://i.ibb.co/nPfY3HN/8-ADA7767.png",
-  "https://i.ibb.co/Ldctgw4/5-49-F92-DC.png",
-  "https://i.ibb.co/J29hdFW/6-EB49-EF4.png",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  ""
-  ];
-    var rd = background[Math.floor(Math.random() * background.length)];
-    let getAvtmot = (
-    await axios.get(
-      `https://graph.facebook.com/${id1}/picture?width=720&height=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`,
-      { responseType: "arraybuffer" }
-    )
-  ).data;
-  fs.writeFileSync(pathAvt1, Buffer.from(getAvtmot, "utf-8"));
-
-  let getbackground = (
-    await axios.get(`${rd}`, {
+  let pathImg = __dirname + `/cache/anhdaden.png`;
+  const text = args.join(" ").trim().replace(/\s+/g, " ").replace(/(\s+\|)/g, "|").replace(/\|\s+/g, "|").split("|");
+  let getImage = (
+    await axios.get(encodeURI(`https://i.imgur.com/2ggq8wM.png`), {
       responseType: "arraybuffer",
     })
   ).data;
-  fs.writeFileSync(pathImg, Buffer.from(getbackground, "utf-8"));
-
-    let baseImage = await loadImage(pathImg);
-    let baseAvt1 = await loadImage(pathAvt1);
-    let canvas = createCanvas(baseImage.width, baseImage.height);
-    let ctx = canvas.getContext("2d");
-    ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
-    ctx.rotate(-25 * Math.PI / 180);
-    ctx.drawImage(baseAvt1, 90, 330, 340, 340);
-    const imageBuffer = canvas.toBuffer();
-    fs.writeFileSync(pathImg, imageBuffer);
-    fs.removeSync(pathAvt1);
-    api.sendMessage({body: messsage, mentions: [{ tag: name, id: senderID }], attachment: fs.createReadStream(pathImg) }, event.threadID, () => fs.unlinkSync(pathImg));
-
-}
-
-  await Currencies.setData(senderID, { exp });
-  return;
-}
-
-module.exports.languages = {
-  "vi": {
-    "off": "𝗧𝗮̆́𝘁",
-    "on": "𝗕𝗮̣̂𝘁",
-    "successText": "𝐭𝐡𝐚̀𝐧𝐡 𝐜𝐨̂𝐧𝐠 𝐭𝐡𝐨̂𝐧𝐠 𝐛𝐚́𝐨 𝐫𝐚𝐧𝐤𝐮𝐩 ✨",
-    "levelup": "🌸 𝗞𝗶̃ 𝗻𝗮̆𝗻𝗴 𝘅𝗮̣𝗼 𝗹𝗼̂̀𝗻𝗻 𝗼̛̉ 𝗺𝗼̂𝗻 𝗽𝗵𝗮́𝗽 𝗵𝗮̂́𝗽 𝗱𝗶𝗲̂𝗺 𝗰𝘂̉𝗮 {name} 𝘃𝘂̛̀𝗮 𝗹𝗲̂𝗻 𝘁𝗼̛́𝗶 𝗹𝗲𝘃𝗲𝗹 {level} 🌸"
-  },
-  "en": {
-    "on": "on",
-    "off": "off",
-    "successText": "success notification rankup!",
-    "levelup": "╭──────•◈•───────╮\n         RANA BOt       \n\n\n{name}, 🙄_দেখ লুচ্চা তুই আমাকে কতটা ডিস্টার্ব করছিস-🙄🤰💁‍♀️👉 {level} \n\n\n  𝗠𝗥. 𝗔𝗟𝗩𝗜 𝗖𝗛𝗢𝗪𝗗𝗛𝗨𝗥𝗬\n╰──────•◈•───────╯",
-  }
-}
-
-module.exports.run = async function({ api, event, Threads, getText }) {
-  const { threadID, messageID } = event;
-  let data = (await Threads.getData(threadID)).data;
-
-  if (typeof data["rankup"] == "undefined" || data["rankup"] == false) data["rankup"] = true;
-  else data["rankup"] = false;
-
-  await Threads.setData(threadID, { data });
-  global.data.threadData.set(threadID, data);
-  return api.sendMessage(`${(data["rankup"] == true) ? getText("on") : getText("off")} ${getText("successText")}`, threadID, messageID);
-                                              }
+  fs.writeFileSync(pathImg, Buffer.from(getImage, "utf-8"));
+if(!fs.existsSync(__dirname+'/cache/SVN-Arial 2.ttf')) { 
+      let getfont = (await axios.get(`https://drive.google.com/u/0/uc?id=11YxymRp0y3Jle5cFBmLzwU89XNqHIZux&export=download`, { responseType: "arraybuffer" })).data;
+       fs.writeFileSync(__dirname+"/cache/SVN-Arial 2.ttf", Buffer.from(getfont, "utf-8"));
+    };
+  let baseImage = await loadImage(pathImg);
+  let canvas = createCanvas(baseImage.width, baseImage.height);
+  let ctx = canvas.getContext("2d");
+  ctx.drawImage(baseImage, 0, 0, canvas.width, canvas.height);
+  Canvas.registerFont(__dirname+`/cache/SVN-Arial 2.ttf`, {
+        family: "SVN-Arial 2"
+    });
+  ctx.font = "30px SVN-Arial 2";
+  ctx.fillStyle = "#000077";
+  ctx.textAlign = "center";
+  const line = await this.wrapText(ctx, text[0], 464);
+  const lines = await this.wrapText(ctx, text[1], 464);
+  ctx.fillText(line.join("\n"), 170, 129)
+  ctx.fillText(lines.join("\n"), 170, 440)
+  ctx.beginPath();
+  const imageBuffer = canvas.toBuffer();
+  fs.writeFileSync(pathImg, imageBuffer);
+  return api.sendMessage(
+    { attachment: fs.createReadStream(pathImg) },
+    threadID,
+    () => fs.unlinkSync(pathImg),
+    messageID
+  );
+};
