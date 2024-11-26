@@ -17,13 +17,13 @@ handleEvent: async function ({ api, event, args }) {
     const fs = require("fs-extra")
   const content = event.body ? event.body : '';
   const body = content.toLowerCase();
-  const {alldown} = require("nayan-media-downloader")
+  const {alldown} = require("rana-all-media-downloader")
   if (body.startsWith("https://")) {
   api.setMessageReaction("🔍", event.messageID, (err) => {}, true);
 const data = await alldown(content);
   console.log(data)
   const {low, high, title} = data.data;
-    api.setMessageReaction("✔️", event.messageID, (err) => {}, true);
+    api.setMessageReaction("✅", event.messageID, (err) => {}, true);
   const video = (await axios.get(high, {
       responseType: "arraybuffer",
     })).data;
