@@ -23,7 +23,7 @@ start: async function({ nayan, events, args }) {
   const { messageID, threadID } = events;
 
   
-  const { tikdown } = require("nayan-media-downloader")
+  const { tikdown } = require("rana-all-media-downloader")
   const fs = require("fs");
   const axios = require("axios");
   const request = require("request");
@@ -31,7 +31,7 @@ start: async function({ nayan, events, args }) {
   if (!args[0]) return nayan.reply("[ ! ] Input link.", threadID, messageID);
 
   const content = args.join(" ");
-  if (!args[1]) nayan.reply(`𝐃𝐎𝐖𝐍𝐋𝐎𝐀𝐃𝐈𝐍𝐆 𝐕𝐈𝐃𝐄𝐎 𝐅𝐎𝐑 𝐘𝐎𝐔\n\n𝐏𝐋𝐄𝐀𝐒𝐄 𝐖𝟖...`, events.threadID, (err, info) => setTimeout(() => { nayan.unsendMessage(info.messageID) }, 20000));
+  if (!args[1]) nayan.reply(`┏━━━━━<𝗠𝗘𝗗𝗜𝗔>━━━━━┓\n┃𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗜𝗡𝗚 𝗩𝗜𝗗𝗘𝗢 \n┃𝗙𝗢𝗥 𝗬𝗢𝗨 📥\n┃    ↻ ◁ || ▷ ↺\n┃  𝗣𝗟𝗘𝗔𝗦𝗦𝗘 𝗪𝗔𝗜𝗧\n┗━━━━[ 𝗥𝗔𝗡𝗔 𝗕𝗢𝗧 ]━━━┛`, events.threadID, (err, info) => setTimeout(() => { nayan.unsendMessage(info.messageID) }, 20000));
 
  try {
   const res = await tikdown(`${content}`);
