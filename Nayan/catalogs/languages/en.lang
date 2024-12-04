@@ -26,7 +26,7 @@ users.needObject=have to be an Object
 
 handleCommand.userBanned=you are unable to use bot.
 handleCommand.threadBanned=your thread are unable to use bot.
-handleCommand.commandNotExist=আপনি যে কমান্ডটি ব্যবহার করেছেন সেটি বিদ্যমান নেই, সেটি কি "%1" নাকি,.
+handleCommand.commandNotExist=>>কি কমান্ড দিলে ভাই 🙄 \nমাথার উপর দিয়ে গেলো 🙁\nএগুলো বাল ছাল কমান্ড এড নাই 😬\n,তবে "%1" ইউজ করতে পারো..!!🙂🫶,.
 handleCommand.commandThreadBanned=your thread is unable to use command "%1"
 handleCommand.commandUserBanned=you are unable to use command "%1"
 handleCommand.threadNotAllowNSFW=your thread is not allowed to use NSFW commands
