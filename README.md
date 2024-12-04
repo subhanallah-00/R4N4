@@ -18,5 +18,11 @@ Name : ```Mohammad Rana```</br>
 Age : ```18```</br>
 link : [facebook](https://www.facebook.com/rana.is.busy.okay).</br>
 
+<h3 align="center">
+  
+  <p align="center"><img src="https://img.shields.io/badge/WLCM%20TO -RANA BOT-green?colorA=%23ff0000&colorB=%23017e40&style=flat-square">  
+  
+</h3>
 
+![Bot Preview](https://i.imgur.com/gZh1sjU.gif)
 
