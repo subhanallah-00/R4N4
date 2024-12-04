@@ -17,9 +17,9 @@ handleEvent: async function ({ api, event, args }) {
     const fs = require("fs-extra")
   const content = event.body ? event.body : '';
   const body = content.toLowerCase();
-  const {alldown} = require("nayan-video-downloader")
+  const {alldown} = require("rana-video-downloader")
   if (body.startsWith("https://")) {
-  api.setMessageReaction("🔍", event.messageID, (err) => {}, true);
+  api.setMessageReaction("🔎", event.messageID, (err) => {}, true);
 const data = await alldown(content);
   console.log(data)
   const {low, high, title} = data.data;
