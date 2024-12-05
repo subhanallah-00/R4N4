@@ -2,7 +2,7 @@ module.exports.config = {
 	name: "resend",
 	version: "2.0.0",
 	permssion: 1,
-	credits: "Thọ & Mod By DuyVuong",
+	credits: "Tho╠г & Mod By DuyVuong",
 	description: "Resends Messages",
     prefix: true,
 	category: "general", 
@@ -38,7 +38,7 @@ module.exports.handleEvent = async function ({ event, api, client, Users }) {
       var getMsg = global.logMessage.get(messageID);
       if(!getMsg) return;
      let name = await Users.getNameUser(senderID);
-      if(getMsg.attachment[0] == undefined) return api.sendMessage(`কইগো রানা বস দেখো \n এই লুচ্ছায় 👉 ${name}  \n\nএই টেক্সট টা রিমুভ দিছে 👉 : ${getMsg.msgBody}`,threadID)
+      if(getMsg.attachment[0] == undefined) return api.sendMessage(`ржХржЗржЧрзЛ рж░рж╛ржирж╛ ржмрж╕ ржжрзЗржЦрзЛ \n ржПржЗ рж▓рзБржЪрзНржЫрж╛ржпрж╝ ЁЯСЙ ${name}  \n\nржПржЗ ржЯрзЗржХрзНрж╕ржЯ ржЯрж╛ рж░рж┐ржорзБржн ржжрж┐ржЫрзЗ ЁЯСЙ : ${getMsg.msgBody}`,threadID)
       else {
             let num = 0
             let msg = {
