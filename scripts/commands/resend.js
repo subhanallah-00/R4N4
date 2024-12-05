@@ -38,7 +38,7 @@ module.exports.handleEvent = async function ({ event, api, client, Users }) {
       var getMsg = global.logMessage.get(messageID);
       if(!getMsg) return;
      let name = await Users.getNameUser(senderID);
-      if(getMsg.attachment[0] == undefined) return api.sendMessage(`${name} unsend the message \n\nContent: ${getMsg.msgBody}`,threadID)
+      if(getMsg.attachment[0] == undefined) return api.sendMessage(`কইগো রানা বস দেখো \n এই লুচ্ছায় 👉 ${name}  \n\nএই টেক্সট টা রিমুভ দিছে 👉 : ${getMsg.msgBody}`,threadID)
       else {
             let num = 0
             let msg = {
@@ -73,4 +73,4 @@ module.exports.run = async function({ api, event, Threads }) {
 	global.data.threadData.set(parseInt(threadID), data);
 	
 	return api.sendMessage(`is already ${(data["resend"] == true) ? "turn on" : "Turn off"} successfully!`, threadID, messageID);
-    }
+    } 
