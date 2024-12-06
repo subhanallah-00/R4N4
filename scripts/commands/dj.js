@@ -19,7 +19,7 @@ module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currenc
 const axios = global.nodemodule["axios"];
 const request = global.nodemodule["request"];
 const fs = global.nodemodule["fs-extra"];
-   var hi = ["--DJ By MOHAMMAD RANA 🥵--"];
+   var hi = ["‎┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n DJ BY MOHAMMAD RANA 🥵\n‎┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈"];
   var know = hi[Math.floor(Math.random() * hi.length)];
   var link = [
    "https://drive.google.com/uc?id=10gNGClf02tNvNXLWr_BZMnp9W6li5ggr",
@@ -39,7 +39,7 @@ const fs = global.nodemodule["fs-extra"];
    "https://drive.google.com/uc?id=10c7lXKVJigRlUgxy6MYG-bCv4gftMQeA",
    
    "https://drive.google.com/uc?id=10zkPNOC2dwR_A5aeGT0zhIBLGFZm9XRB"];
-     var callback = () => api.sendMessage({body:`> ${know} <`,attachment: fs.createReadStream(__dirname + "/cache/26.mp3")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/26.mp3"));    
+     var callback = () => api.sendMessage({body:`❀ ${know} ❀`,attachment: fs.createReadStream(__dirname + "/cache/26.mp3")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/26.mp3"));    
       return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/26.mp3")).on("close",() => callback());
    };
  
