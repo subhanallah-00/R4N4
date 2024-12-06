@@ -14,14 +14,12 @@ module.exports.config = {
     "axios":""
   }
 };
- 
-    const checkCredits = (value) => value === ["R", "A", "N", "A"].join("");
-    if (!checkCredits(module.exports.config.credits)) 
+
 module.exports.run = async({api,event,args,client,Users,Threads,__GLOBAL,Currencies}) => {
 const axios = global.nodemodule["axios"];
 const request = global.nodemodule["request"];
 const fs = global.nodemodule["fs-extra"];
-   var hi = ["--DJ By MOHAMMAD RANA  ðŸ¥µ--"];
+   var hi = ["--DJ By MOHAMMAD RANA 🥵--"];
   var know = hi[Math.floor(Math.random() * hi.length)];
   var link = [
    "https://drive.google.com/uc?id=10gNGClf02tNvNXLWr_BZMnp9W6li5ggr",
