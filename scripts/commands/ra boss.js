@@ -2,14 +2,14 @@ const fs = require("fs");
 module.exports = {
   config:{
   name: "rana",
-        version: "1.0.1",
-        prefix: false,
+  version: "1.0.1",
+  prefix: false,
   permssion: 0,
   credits: "nayan", 
   description: "Fun",
   category: "no prefix",
-  usages: "farhan",
-        cooldowns: 5, 
+  usages: "rana",
+  cooldowns: 5, 
 },
 
 handleEvent: function({ api, event, client, __GLOBAL }) {
@@ -22,7 +22,7 @@ handleEvent: function({ api, event, client, __GLOBAL }) {
         attachment: fs.createReadStream(__dirname + `/Nayan/Rana.mp3`)
       }
       api.sendMessage( msg, threadID, messageID);
-    api.setMessageReaction("🥰", event.messageID, (err) => {}, true)
+    api.setMessageReaction("😻", event.messageID, (err) => {}, true)
     }
   },
   start: function({ nayan }) {
