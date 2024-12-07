@@ -42,7 +42,7 @@ module.exports.run = async ({ api, event, args, client, Users, Threads, __GLOBAL
     
       setTimeout(() => {
         api.unsendMessage(info.messageID);
-      }, 20000);
+      }, 15000);
 
 
       const callback = () => api.sendMessage(
