@@ -1,22 +1,22 @@
 const axios = require('axios');
-
+ 
 module.exports.config = {
   name: 'font',
   version: '1.1.0',
   permssion: 0,
-  credits: 'Islamick Cyber Chat',//**Don't change my stall code
-  prefix:true,
-  description: 'Converts text into any Font',
+  credits: 'RANA',//**Don't change my stall code
+  prefix: true,
+  description: 'Text convert with any font',
   category: 'Tools',
-  usages: '<fontType> <input>',
+  usages: 'font',
   cooldowns: 5,
 };
-
+ 
 module.exports.run = async ({ event, api, args }) => {
   // Define the font maps for different font types
   const fontMaps = [
     {
-      name: 'a',
+      name: '1',
       map: {
         ' ': ' ',
         'a': '𝓪', 'b': '𝓫', 'c': '𝓬', 'd': '𝓭', 'e': '𝓮', 'f': '𝓯', 'g': '𝓰', 'h': '𝓱',
@@ -28,20 +28,20 @@ module.exports.run = async ({ event, api, args }) => {
       },
     },
     {
-      name: 'b',
+      name: '2',
       map: {
         ' ': ' ',
-        'a': '𝕒', 'b': '𝕓', 'c': '𝕔', 'd': '𝕕', 'e': '𝕖', 'f': '𝕗', 'g': '𝕘', 'h': '𝕙',
-        'i': '𝕚', 'j': '𝕛', 'k': '𝕜', 'l': '𝕝', 'm': '𝕞', 'n': '𝕟', 'o': '𝕠', 'p': '𝕡', 'q': '𝕢',
-        'r': '𝕣', 's': '𝕤', 't': '𝕥', 'u': '𝕦', 'v': '𝕧', 'w': '𝕨', 'x': '𝕩', 'y': '𝕪', 'z': '𝕫',
-        'A': '𝔸', 'B': '𝔹', 'C': 'ℂ', 'D': '𝔻', 'E': '𝔼', 'F': '𝔽', 'G': '𝔾', 'H': 'ℍ',
-        'I': '𝕀', 'J': '𝕁', 'K': '𝕂', 'L': '𝕃', 'M': '𝕄', 'N': 'ℕ', 'O': '𝕆', 'P': 'ℙ', 'Q': 'ℚ',
-        'R': 'ℝ', 'S': '𝕊', 'T': '𝕋', 'U': '𝕌', 'V': '𝕍', 'W': '𝕎', 'X': '𝕏', 'Y': '𝕐', 'Z': 'ℤ', '0': '𝟘',
+        'a': '𝚊', 'b': '𝚋', 'c': '𝚌', 'd': '𝚍', 'e': '𝚎', 'f': '𝚏', 'g': '𝚐', 'h': '𝚑',
+        'i': '𝚒', 'j': '𝚓', 'k': '𝚔', 'l': '𝚕', 'm': '𝚖', 'n': '𝚗', 'o': '𝚘', 'p': '𝚙', 'q': '𝚚',
+        'r': '𝚛', 's': '𝚜', 't': '𝚝', 'u': '𝚞', 'v': '𝚟', 'w': '𝚠', 'x': '𝚡', 'y': '𝚢', 'z': '𝚣',
+        'A': '𝙰', 'B': '𝙱', 'C': '𝙲', 'D': '𝙳', 'E': '𝙴', 'F': '𝙵', 'G': '𝙶', 'H': '𝙷',
+        'I': '𝙸', 'J': '𝙹', 'K': '𝙺', 'L': '𝙻', 'M': '𝙼', 'N': '𝙽', 'O': '𝙾', 'P': '𝙿', 'Q': '𝚀',
+        'R': '𝚁', 'S': '𝚂', 'T': '𝚃', 'U': '𝚄', 'V': '𝚅', 'W': '𝚆', 'X': '𝚇', 'Y': '𝚈', 'Z': '𝚉', '0': '0',
         '1': '𝟙', '2': '𝟚', '3': '𝟛', '4': '𝟜', '5': '𝟝', '6': '𝟞', '7': '𝟟', '8': '𝟠', '9': '𝟡',
       },
     },
     {
-      name: 'c',
+      name: '3',
       map: {
         ' ': ' ',
         'a': '𝗮', 'b': '𝗯', 'c': '𝗰', 'd': '𝗱', 'e': '𝗲', 'f': '𝗳', 'g': '𝗴', 'h': '𝗵',
@@ -53,7 +53,7 @@ module.exports.run = async ({ event, api, args }) => {
       },
     },
     {
-      name: 'd',
+      name: '4',
       map: {
         ' ': ' ',
         'a': '𝑎', 'b': '𝑏', 'c': '𝑐', 'd': '𝑑', 'e': '𝑒', 'f': '𝑓', 'g': '𝑔', 'h': '𝒉',
@@ -65,7 +65,7 @@ module.exports.run = async ({ event, api, args }) => {
       },
     },
     {
-      name: 'e',
+      name: '5',
       map: {
         ' ': ' ',
         'a': '𝔄', 'b': '𝔅', 'c': '𝔇', 'd': '𝔈', 'e': '𝔉', 'f': '𝔉', 'g': '𝔊', 'h': '𝔍',
@@ -77,7 +77,7 @@ module.exports.run = async ({ event, api, args }) => {
       },
     },
     {
-      name: 'f',
+      name: '6',
       map: {
         'a': 'ᗩ', 'b': 'ᗷ', 'c': 'ᑕ', 'd': 'ᗪ', 'e': 'E', 'f': 'ᖴ', 'g': 'G', 'h': 'ᕼ',
         'i': 'I', 'j': 'ᒍ', 'k': 'K', 'l': 'ᒪ', 'm': 'ᗰ', 'n': 'ᑎ', 'O': 'ᴏ', 'p': 'ᑭ', 'q': 'ᑫ',
@@ -88,7 +88,7 @@ module.exports.run = async ({ event, api, args }) => {
       },
     },
     {
-      name: 'g',
+      name: '7',
       map: {
        'a': '🅰', 'b': '🅱', 'c': '🅲', 'd': '🅳', 'e': '🅴', 'f': '🅵', 'g': '🅶', 'h': '🅷',
        'i': '🅸', 'j': '🅹', 'k': '🅺', 'l': '🅻', 'm': '🅼', 'n': '🅽', 'o': '🅾', 'p': '🅿', 'q': '🆀',
@@ -99,7 +99,7 @@ module.exports.run = async ({ event, api, args }) => {
       },
     },
     {
-      name: 'h',
+      name: '8',
       map: {
        'a': '🅐', 'b': '🅑', 'c': '🅒', 'd': '🅓', 'e': '🅔', 'f': '🅕', 'g': '🅖', 'h': '🅗',
        'i': '🅘', 'j': '🅙', 'k': '🅚', 'l': '🅛', 'm': '🅜', 'n': '🅝', 'o': '🅞', 'p': '🅟', 'q': '🅠',
@@ -111,9 +111,9 @@ module.exports.run = async ({ event, api, args }) => {
       },
     },
     {
-      name: 'i',
+      name: '9',
       map: {
-        'a': '𝐚', 'b': '𝐛', 'c': '𝐜', '𝐝': '🅓', 'e': '𝐞', 'f': '𝐟', 'g': '𝐠', 'h': '𝐡',
+        'a': '𝐚', 'b': '𝐛', 'c': '𝐜', 'd': '𝐝', 'e': '𝐞', 'f': '𝐟', 'g': '𝐠', 'h': '𝐡',
         'i': '𝐢', 'j': '𝐣', 'k': '𝐤', 'l': '𝐥', 'm': '𝐦', 'n': '𝐧', 'o': '𝐨', 'p': '𝐩', 'q': '𝐪',
         'r': '𝐫', 's': '𝐬', 't': '𝐭', 'u': '𝐮', 'v': '𝐯', 'w': '𝐰', 'x': '𝐱', 'y': '𝐲', 'z': '𝐳',
         'A': '𝐀', 'B': '𝐁', 'C': '𝐂', 'D': '𝐃', 'E': '𝐄', 'F': '𝐅', 'G': '𝐆', 'H': '𝐇',
@@ -122,18 +122,18 @@ module.exports.run = async ({ event, api, args }) => {
         '1': '𝟏', '2': '𝟐', '3': '𝟑', '4': '𝟒', '5': '𝟓', '6': '𝟔', '7': '𝟕', '8': '𝟖', '9': '𝟗',
       },
     }
-
-
+ 
+ 
   ];
-
+ 
   if (args.length === 0) {
     return api.sendMessage(
-      '•┄┅════❁🩵❁════┅┄•\n\nআসসালামু আলাইকুম-!!🖤💫\nইংলিশ Stylish Font ব্যবহার করার জন্য Font command ব্যবহার করুন উদাহরণ Font a RANA অথবা Font b RANA ভাবে কমান্ড দিয়ে ব্যবহার করুন\n\n Font List: a-i\n\n•┄┅════❁🩵❁════┅┄•',
+      '❁═════════════❁\n\n-HEY GUYES-!!🫵😌\nEnglish Stylish Font Here\n Example: /font 1 RANA \n\n Font List: 1-9\n\n❁═════════════❁',
       event.threadID,
       event.messageID
     );
   }
-
+ 
   if (args[0].toLowerCase() === 'list') {
     const availableFontTypes = fontMaps.map(item => item.name).join(', ');
     return api.sendMessage(
@@ -142,28 +142,29 @@ module.exports.run = async ({ event, api, args }) => {
       event.messageID
     );
   }
-
+ 
   const fontType = args.shift().toLowerCase();
   const inputText = args.join(' ');
-
+ 
   const fontMap = fontMaps.find(item => item.name === fontType);
-
+ 
   if (!fontMap) {
     const availableFontTypes = fontMaps.map(item => item.name).join(', ');
     const errorMessage = `Invalid font type '${fontType}'. Available font types: ${availableFontTypes}`;
     return api.sendMessage(errorMessage, event.threadID, event.messageID);
   }
-
+ 
   const outputText = inputText
     .split('')
     .map(char => fontMap.map[char] || char)
     .join('');
-
-  const gifUrl = 'https://i.imgur.com/kuSLl6A.jpeg';
+ 
+  const gifUrl = 'https://i.imgur.com/1dcBfbg.jpeg';
   const gifData = await axios.get(gifUrl, { responseType: 'stream' });
-
+ 
   return api.sendMessage({
     body: outputText,
     attachment: gifData.data,
   }, event.threadID, event.messageID);
 };
+ 
