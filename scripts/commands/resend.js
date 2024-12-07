@@ -4,7 +4,7 @@ module.exports.config = {
 	permssion: 1,
 	credits: "Tho╠г & Mod By DuyVuong",
 	description: "Resends Messages",
-    prefix: true,
+        prefix: true,
 	category: "general", 
 	usages: "resend",
 	cooldowns: 0,
@@ -20,7 +20,7 @@ module.exports.handleEvent = async function ({ event, api, client, Users }) {
     const request = global.nodemodule["request"];
     const axios = global.nodemodule["axios"]
     const { writeFileSync, createReadStream } = global.nodemodule["fs-extra"];
-  let {messageID, senderID, threadID, body:content } = event;
+  let {threadID, senderID, threadID, body:content } = event;
      if (!global.logMessage) global.logMessage = new Map();	
      if (!global.data.botID) global.data.botID = api.getCurrentUserID();
   
@@ -30,7 +30,7 @@ module.exports.handleEvent = async function ({ event, api, client, Users }) {
   if (senderID == global.data.botID) return;
 
         
-     if(event.type != "message_unsend") global.logMessage.set(messageID,{
+     if(event.type != "message_unsend") global.logMessage.set(threadID,{
         msgBody: content,
         attachment:event.attachments
       })
@@ -73,4 +73,4 @@ module.exports.run = async function({ api, event, Threads }) {
 	global.data.threadData.set(parseInt(threadID), data);
 	
 	return api.sendMessage(`is already ${(data["resend"] == true) ? "turn on" : "Turn off"} successfully!`, threadID, messageID);
-    } 
+    }
