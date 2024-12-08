@@ -14,7 +14,7 @@ module.exports.config = {
   description: "better than all sim simi",
   commandCategory: "chat",
   category: "chat",
-  usePrefix: true,
+  usePrefix: false,
   prefix: true,
   usages: `[anyMessage] OR\nteach [YourMessage] - [Reply1], [Reply2], [Reply3]... OR\nteach [react] [YourMessage] - [react1], [react2], [react3]... OR\nremove [YourMessage] OR\nrm [YourMessage] - [indexNumber] OR\nmsg [YourMessage] OR\nlist OR\nall OR\nedit [YourMessage] - [NewMessage]`,
 };
@@ -26,7 +26,7 @@ module.exports.run = async function ({ api, event, args, Users }) {
     const uid = event.senderID;
 
     if (!args[0]) {
-      const ran = ["Bolo baby", "hum", "type help baby", "type !baby hi"];
+      const ran = ["◄⏤͟͟͞🎭⃝⃪ ⃪ͥ͢ ꯭ᷟ ꯭ 𝚃𝙾𝙼⛱️꯭᪵᪳😻⟁⃤", "hum bolo amr jan", "uff baby kemn aso", "type /tom hi"];
       const r = ran[Math.floor(Math.random() * ran.length)];
       return api.sendMessage(r, event.threadID, event.messageID);
     }
