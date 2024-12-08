@@ -54,10 +54,10 @@ react.includes("bal") ||
 react.includes("heda") || 
 react.includes("bap")) {
 		var msg = {
-				body: "গালাগালি করলে বস রানা কে বলে দিবো -!!😤👊🔪"
+				body: "┏━━━━[ 𝗪𝗔𝗥'𝗡𝗜𝗡𝗚 ]━━━━┓\n┃▷গালি দিলে পাপ হয় বাইনচুদ \n┃▷Next Time Gali Noi..⚠️\n┗━━━━[ 𝗥𝗔𝗡𝗔 𝗕𝗢𝗧 ]━━━━┛"
 			}
 			api.sendMessage(msg, threadID, messageID);
-    api.setMessageReaction("🤬", event.messageID, (err) => {}, true)
+    api.setMessageReaction("❌", event.messageID, (err) => {}, true)
 		}
 	}
 	module.exports.run = function({ api, event, client, __GLOBAL }) {
