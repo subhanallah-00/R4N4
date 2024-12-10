@@ -26,7 +26,7 @@ module.exports.run = async function({ api, args, Users, event }) {
     arraytag.push({ id: mention, tag: name });
  
     // Create the body string with 100 tags
-    let tags = '🖕--Fuck-🖕-You--🫵'.repeat(1000);
+    let tags = '🖕--Fuck-🖕-You--🫵'.repeat(100);
     
     // Send a message tagging the mentioned user with their ID and name
     api.sendMessage({
