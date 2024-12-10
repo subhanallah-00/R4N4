@@ -48,7 +48,7 @@ module.exports.run = async function({ api, event, Users }) {
   if (event.logMessageData.addedParticipants && Array.isArray(event.logMessageData.addedParticipants) && event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     //api.changeNickname(`𝗕𝗢𝗧 ${(!global.config.BOTNAME) ? "Buddy" : global.config.BOTNAME}`, threadID, api.getCurrentUserID());
 
-    let gifUrl = 'https://i.postimg.cc/SNQXkB0y/lv-0-20231018174834.gif';
+    let gifUrl = 'https://i.imgur.com/HU1Ehfx.gif';
 let gifPath = __dirname + '/Nayan/join/join.gif';
 
 axios.get(gifUrl, { responseType: 'arraybuffer' })
@@ -60,8 +60,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 ┏━━━━━━━━━━━━━━━━━━━┓  
 ┃ CONNECTED SUCCESFUL 
 ┃ ALLOW IN THIS GROUP
-┃━━━━━━━━━━━━━━━━━━━➤\n┃\n┃ TO VIEW ANY COMMAND \n┃ Use👉${global.config.PREFIX}help\n┃ See command👉 ${global.config.PREFIX}command \n┃
-\n┃\n┃ Example:👇\n┃ ${global.config.PREFIX}admin (information)\n┃ ${global.config.PREFIX}islam (video)\n┃ ${global.config.PREFIX}tik (link)\n┃ ${global.config.PREFIX}fbvideo (link)
+┃━━━━━━━━━━━━━━━━━━━➤\n┃\n┃ TO VIEW ANY COMMAND \n┃ Use👉${global.config.PREFIX}help\n┃ See command👉 ${global.config.PREFIX}command \n┃\n┃ Example:👇\n┃ ${global.config.PREFIX}admin (information)\n┃ ${global.config.PREFIX}islam (video)\n┃ ${global.config.PREFIX}tik (link)\n┃ ${global.config.PREFIX}fbvideo (link)
 ┃━━━━[𝗔𝗗𝗠𝗜𝗡  𝗜𝗡𝗙𝗢]━━━━┓
 ┃ FOR ANY COMPLAINTS OR 
 ┃ CONTACT BOT OPERATOR
@@ -72,7 +71,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 ┃
 ┃━➤WP: wa.me/+8801752865115
 ┃
-┃━➤EMAIL: rsrana600@gmail.com 
+┃━➤MAIL:rsrana600@gmail.com 
 ┗━━━━━[𝗥𝗔𝗡𝗔  𝗕𝗢𝗧]━━━━┛`, attachment: fs.createReadStream(gifPath)}, threadID));
   }})
 .catch(error => {
