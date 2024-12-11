@@ -728,4 +728,824 @@ function _formatAttachment(attachment1, attachment2) {
 					blob.story_attachment.media.image &&
 					blob.story_attachment.media.image.width,
 				height:
-	
+					blob.story_attachment.media &&
+					blob.story_attachment.media.image &&
+					blob.story_attachment.media.image.height,
+				playable:
+					blob.story_attachment.media &&
+					blob.story_attachment.media.is_playable,
+				duration:
+					blob.story_attachment.media &&
+					blob.story_attachment.media.playable_duration_in_ms,
+				playableUrl:
+					blob.story_attachment.media == null
+						? null
+						: blob.story_attachment.media.playable_url,
+
+				subattachments: blob.story_attachment.subattachments,
+				properties: blob.story_attachment.properties.reduce(function (obj, cur) {
+					obj[cur.key] = cur.value.text;
+					return obj;
+				}, {}),
+
+				facebookUrl: blob.story_attachment.url, // @Legacy
+				target: blob.story_attachment.target, // @Legacy
+				styleList: blob.story_attachment.style_list // @Legacy
+			};
+		case "MessageFile":
+			return {
+				type: "file",
+				ID: blob.message_file_fbid,
+				fullFileName: fullFileName,
+				filename: blob.filename,
+				fileSize: fileSize,
+				mimeType: blob.mimetype,
+				original_extension: blob.original_extension || fullFileName.split(".").pop(),
+
+				url: blob.url,
+				isMalicious: blob.is_malicious,
+				contentType: blob.content_type,
+
+				name: blob.filename
+			};
+		default:
+			throw new Error(
+				"unrecognized attach_file of type " +
+				type +
+				"`" +
+				JSON.stringify(attachment1, null, 4) +
+				" attachment2: " +
+				JSON.stringify(attachment2, null, 4) +
+				"`"
+			);
+	}
+}
+
+function formatAttachment(attachments, attachmentIds, attachmentMap, shareMap) {
+	attachmentMap = shareMap || attachmentMap;
+	return attachments
+		? attachments.map(function (val, i) {
+			if (
+				!attachmentMap ||
+				!attachmentIds ||
+				!attachmentMap[attachmentIds[i]]
+			) {
+				return _formatAttachment(val);
+			}
+			return _formatAttachment(val, attachmentMap[attachmentIds[i]]);
+		})
+		: [];
+}
+
+function formatDeltaMessage(m) {
+	var md = m.delta.messageMetadata;
+
+	var mdata =
+		m.delta.data === undefined
+			? []
+			: m.delta.data.prng === undefined
+				? []
+				: JSON.parse(m.delta.data.prng);
+	var m_id = mdata.map(u => u.i);
+	var m_offset = mdata.map(u => u.o);
+	var m_length = mdata.map(u => u.l);
+	var mentions = {};
+	var body = m.delta.body || "";
+	var args = body == "" ? [] : body.trim().split(/\s+/);
+	for (var i = 0; i < m_id.length; i++) {
+		mentions[m_id[i]] = m.delta.body.substring(
+			m_offset[i],
+			m_offset[i] + m_length[i]
+		);
+	}
+
+	return {
+		type: "message",
+		senderID: formatID(md.actorFbId.toString()),
+		threadID: formatID(
+			(md.threadKey.threadFbId || md.threadKey.otherUserFbId).toString()
+		),
+		args: args,
+		body: body,
+		messageID: md.messageId,
+		attachments: (m.delta.attachments || []).map(v => _formatAttachment(v)),
+		mentions: mentions,
+		timestamp: md.timestamp,
+		isGroup: !!md.threadKey.threadFbId,
+		participantIDs: m.delta.participants || []
+	};
+}
+
+
+function formatID(id) {
+	if (id != undefined && id != null) {
+		return id.replace(/(fb)?id[:.]/, "");
+	}
+	else {
+		return id;
+	}
+}
+
+function formatMessage(m) {
+	var originalMessage = m.message ? m.message : m;
+	var obj = {
+		type: "message",
+		senderName: originalMessage.sender_name,
+		senderID: formatID(originalMessage.sender_fbid.toString()),
+		participantNames: originalMessage.group_thread_info
+			? originalMessage.group_thread_info.participant_names
+			: [originalMessage.sender_name.split(" ")[0]],
+		participantIDs: originalMessage.group_thread_info
+			? originalMessage.group_thread_info.participant_ids.map(function (v) {
+				return formatID(v.toString());
+			})
+			: [formatID(originalMessage.sender_fbid)],
+		body: originalMessage.body || "",
+		threadID: formatID(
+			(
+				originalMessage.thread_fbid || originalMessage.other_user_fbid
+			).toString()
+		),
+		threadName: originalMessage.group_thread_info
+			? originalMessage.group_thread_info.name
+			: originalMessage.sender_name,
+		location: originalMessage.coordinates ? originalMessage.coordinates : null,
+		messageID: originalMessage.mid
+			? originalMessage.mid.toString()
+			: originalMessage.message_id,
+		attachments: formatAttachment(
+			originalMessage.attachments,
+			originalMessage.attachmentIds,
+			originalMessage.attachment_map,
+			originalMessage.share_map
+		),
+		timestamp: originalMessage.timestamp,
+		timestampAbsolute: originalMessage.timestamp_absolute,
+		timestampRelative: originalMessage.timestamp_relative,
+		timestampDatetime: originalMessage.timestamp_datetime,
+		tags: originalMessage.tags,
+		reactions: originalMessage.reactions ? originalMessage.reactions : [],
+		isUnread: originalMessage.is_unread
+	};
+
+	if (m.type === "pages_messaging")
+		obj.pageID = m.realtime_viewer_fbid.toString();
+	obj.isGroup = obj.participantIDs.length > 2;
+
+	return obj;
+}
+
+function formatEvent(m) {
+	var originalMessage = m.message ? m.message : m;
+	var logMessageType = originalMessage.log_message_type;
+	var logMessageData;
+	if (logMessageType === "log:generic-admin-text") {
+		logMessageData = originalMessage.log_message_data.untypedData;
+		logMessageType = getAdminTextMessageType(
+			originalMessage.log_message_data.message_type
+		);
+	} else {
+		logMessageData = originalMessage.log_message_data;
+	}
+
+	return Object.assign(formatMessage(originalMessage), {
+		type: "event",
+		logMessageType: logMessageType,
+		logMessageData: logMessageData,
+		logMessageBody: originalMessage.log_message_body
+	});
+}
+
+function formatHistoryMessage(m) {
+	switch (m.action_type) {
+		case "ma-type:log-message":
+			return formatEvent(m);
+		default:
+			return formatMessage(m);
+	}
+}
+
+// Get a more readable message type for AdminTextMessages
+function getAdminTextMessageType(type) {
+	switch (type) {
+		case "change_thread_theme":
+			return "log:thread-color";
+		case "change_thread_quick_reaction":
+			return "log:thread-icon";
+		case "change_thread_nickname":
+			return "log:user-nickname";
+		case "change_thread_admins":
+			return "log:thread-admins";
+		case "group_poll":
+			return "log:thread-poll";
+		case "change_thread_approval_mode":
+			return "log:thread-approval-mode";
+		case "messenger_call_log":
+		case "participant_joined_group_call":
+			return "log:thread-call";
+		default:
+			return type;
+	}
+}
+
+function formatDeltaEvent(m) {
+	var logMessageType;
+	var logMessageData;
+
+	// log:thread-color => {theme_color}
+	// log:user-nickname => {participant_id, nickname}
+	// log:thread-icon => {thread_icon}
+	// log:thread-name => {name}
+	// log:subscribe => {addedParticipants - [Array]}
+	// log:unsubscribe => {leftParticipantFbId}
+
+	switch (m.class) {
+		case "AdminTextMessage":
+			logMessageType = getAdminTextMessageType(m.type);
+			logMessageData = m.untypedData;
+			break;
+		case "ThreadName":
+			logMessageType = "log:thread-name";
+			logMessageData = { name: m.name };
+			break;
+		case "ParticipantsAddedToGroupThread":
+			logMessageType = "log:subscribe";
+			logMessageData = { addedParticipants: m.addedParticipants };
+			break;
+		case "ParticipantLeftGroupThread":
+			logMessageType = "log:unsubscribe";
+			logMessageData = { leftParticipantFbId: m.leftParticipantFbId };
+			break;
+	}
+
+	return {
+		type: "event",
+		threadID: formatID(
+			(
+				m.messageMetadata.threadKey.threadFbId ||
+				m.messageMetadata.threadKey.otherUserFbId
+			).toString()
+		),
+		logMessageType: logMessageType,
+		logMessageData: logMessageData,
+		logMessageBody: m.messageMetadata.adminText,
+		author: m.messageMetadata.actorFbId,
+		participantIDs: m.participants || []
+	};
+}
+
+function formatTyp(event) {
+	return {
+		isTyping: !!event.st,
+		from: event.from.toString(),
+		threadID: formatID(
+			(event.to || event.thread_fbid || event.from).toString()
+		),
+		// When receiving typ indication from mobile, `from_mobile` isn't set.
+		// If it is, we just use that value.
+		fromMobile: event.hasOwnProperty("from_mobile") ? event.from_mobile : true,
+		userID: (event.realtime_viewer_fbid || event.from).toString(),
+		type: "typ"
+	};
+}
+
+function formatDeltaReadReceipt(delta) {
+	// otherUserFbId seems to be used as both the readerID and the threadID in a 1-1 chat.
+	// In a group chat actorFbId is used for the reader and threadFbId for the thread.
+	return {
+		reader: (delta.threadKey.otherUserFbId || delta.actorFbId).toString(),
+		time: delta.actionTimestampMs,
+		threadID: formatID(
+			(delta.threadKey.otherUserFbId || delta.threadKey.threadFbId).toString()
+		),
+		type: "read_receipt"
+	};
+}
+
+function formatReadReceipt(event) {
+	return {
+		reader: event.reader.toString(),
+		time: event.time,
+		threadID: formatID((event.thread_fbid || event.reader).toString()),
+		type: "read_receipt"
+	};
+}
+
+function formatRead(event) {
+	return {
+		threadID: formatID(
+			(
+				(event.chat_ids && event.chat_ids[0]) ||
+				(event.thread_fbids && event.thread_fbids[0])
+			).toString()
+		),
+		time: event.timestamp,
+		type: "read"
+	};
+}
+
+function getFrom(str, startToken, endToken) {
+	const start = str.indexOf(startToken) + startToken.length;
+	if (start < startToken.length) return "";
+
+	const lastHalf = str.substring(start);
+	const end = lastHalf.indexOf(endToken);
+	if (end === -1) {
+		throw new Error(
+			"Could not find endTime `" + endToken + "` in the given string."
+		);
+	}
+	return lastHalf.substring(0, end);
+}
+
+function makeParsable(html) {
+	const withoutForLoop = html.replace(/for\s*\(\s*;\s*;\s*\)\s*;\s*/, "");
+
+	// (What the fuck FB, why windows style newlines?)
+	// So sometimes FB will send us base multiple objects in the same response.
+	// They're all valid JSON, one after the other, at the top level. We detect
+	// that and make it parse-able by JSON.parse.
+	//       Ben - July 15th 2017
+	//
+	// It turns out that Facebook may insert random number of spaces before
+	// next object begins (issue #616)
+	//       rav_kr - 2018-03-19
+	const maybeMultipleObjects = withoutForLoop.split(/\}\r\n *\{/);
+	if (maybeMultipleObjects.length === 1) return maybeMultipleObjects;
+
+	return "[" + maybeMultipleObjects.join("},{") + "]";
+}
+
+function arrToForm(form) {
+	return arrayToObject(
+		form,
+		function (v) {
+			return v.name;
+		},
+		function (v) {
+			return v.val;
+		}
+	);
+}
+
+function arrayToObject(arr, getKey, getValue) {
+	return arr.reduce(function (acc, val) {
+		acc[getKey(val)] = getValue(val);
+		return acc;
+	}, {});
+}
+
+function getSignatureID() {
+	return Math.floor(Math.random() * 2147483648).toString(16);
+}
+
+function generateTimestampRelative() {
+	const d = new Date();
+	return d.getHours() + ":" + padZeros(d.getMinutes());
+}
+
+function makeDefaults(html, userID, ctx) {
+	let reqCounter = 1;
+	const fb_dtsg = getFrom(html, 'name="fb_dtsg" value="', '"');
+
+	// @Hack Ok we've done hacky things, this is definitely on top 5.
+	// We totally assume the object is flat and try parsing until a }.
+	// If it works though it's cool because we get a bunch of extra data things.
+	//
+	// Update: we don't need this. Leaving it in in case we ever do.
+	//       Ben - July 15th 2017
+
+	// var siteData = getFrom(html, "[\"SiteData\",[],", "},");
+	// try {
+	//   siteData = JSON.parse(siteData + "}");
+	// } catch(e) {
+	//   log.warn("makeDefaults", "Couldn't parse SiteData. Won't have access to some variables.");
+	//   siteData = {};
+	// }
+
+	let ttstamp = "2";
+	for (let i = 0; i < fb_dtsg.length; i++) {
+		ttstamp += fb_dtsg.charCodeAt(i);
+	}
+	const revision = getFrom(html, 'revision":', ",");
+
+	function mergeWithDefaults(obj) {
+		// @TODO This is missing a key called __dyn.
+		// After some investigation it seems like __dyn is some sort of set that FB
+		// calls BitMap. It seems like certain responses have a "define" key in the
+		// res.jsmods arrays. I think the code iterates over those and calls `set`
+		// on the bitmap for each of those keys. Then it calls
+		// bitmap.toCompressedString() which returns what __dyn is.
+		//
+		// So far the API has been working without this.
+		//
+		//              Ben - July 15th 2017
+		const newObj = {
+			__user: userID,
+			__req: (reqCounter++).toString(36),
+			__rev: revision,
+			__a: 1,
+			// __af: siteData.features,
+			fb_dtsg: ctx.fb_dtsg ? ctx.fb_dtsg : fb_dtsg,
+			jazoest: ctx.ttstamp ? ctx.ttstamp : ttstamp
+			// __spin_r: siteData.__spin_r,
+			// __spin_b: siteData.__spin_b,
+			// __spin_t: siteData.__spin_t,
+		};
+
+		// @TODO this is probably not needed.
+		//         Ben - July 15th 2017
+		// if (siteData.be_key) {
+		//   newObj[siteData.be_key] = siteData.be_mode;
+		// }
+		// if (siteData.pkg_cohort_key) {
+		//   newObj[siteData.pkg_cohort_key] = siteData.pkg_cohort;
+		// }
+
+		if (!obj) return newObj;
+
+		for (const prop in obj) {
+			if (obj.hasOwnProperty(prop)) {
+				if (!newObj[prop]) {
+					newObj[prop] = obj[prop];
+				}
+			}
+		}
+
+		return newObj;
+	}
+
+	function postWithDefaults(url, jar, form, ctxx, customHeader = {}) {
+		return post(url, jar, mergeWithDefaults(form), ctx.globalOptions, ctxx || ctx, customHeader);
+	}
+
+	function getWithDefaults(url, jar, qs, ctxx, customHeader = {}) {
+		return get(url, jar, mergeWithDefaults(qs), ctx.globalOptions, ctxx || ctx, customHeader);
+	}
+
+	function postFormDataWithDefault(url, jar, form, qs, ctxx) {
+		return postFormData(
+			url,
+			jar,
+			mergeWithDefaults(form),
+			mergeWithDefaults(qs),
+			ctx.globalOptions,
+			ctxx || ctx
+		);
+	}
+
+	return {
+		get: getWithDefaults,
+		post: postWithDefaults,
+		postFormData: postFormDataWithDefault
+	};
+}
+
+//Fix parseAndCheckLogin
+function parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall) {
+	if (retryCount == undefined) {
+		retryCount = 0;
+	}
+	if (sourceCall == undefined) {
+		try {
+			throw new Error();
+		}
+		catch (e) {
+			sourceCall = e;
+		}
+	}
+	return function (data) {
+		return tryPromise(function () {
+			log.verbose("parseAndCheckLogin", data.body);
+			if (data.statusCode >= 500 && data.statusCode < 600) {
+				if (retryCount >= 5) {
+					throw new CustomError({
+						message: "Request retry failed. Check the `res` and `statusCode` property on this error.",
+						statusCode: data.statusCode,
+						res: data.body,
+						error: "Request retry failed. Check the `res` and `statusCode` property on this error.",
+						sourceCall: sourceCall
+					});
+				}
+				retryCount++;
+				const retryTime = Math.floor(Math.random() * 5000);
+				log.warn(
+					"parseAndCheckLogin",
+					"Got status code " +
+					data.statusCode +
+					" - " +
+					retryCount +
+					". attempt to retry in " +
+					retryTime +
+					" milliseconds..."
+				);
+				const url =
+					data.request.uri.protocol +
+					"//" +
+					data.request.uri.hostname +
+					data.request.uri.pathname;
+				if (
+					data.request.headers["Content-Type"].split(";")[0] ===
+					"multipart/form-data"
+				) {
+					return delay(retryTime)
+						.then(function () {
+							return defaultFuncs.postFormData(
+								url,
+								ctx.jar,
+								data.request.formData,
+								{}
+							);
+						})
+						.then(parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall));
+				}
+				else {
+					return delay(retryTime)
+						.then(function () {
+							return defaultFuncs.post(url, ctx.jar, data.request.formData);
+						})
+						.then(parseAndCheckLogin(ctx, defaultFuncs, retryCount, sourceCall));
+				}
+			}
+			if (data.statusCose === 404) return;
+			if (data.statusCode !== 200)
+				throw new CustomError({
+					message: "parseAndCheckLogin got status code: " + data.statusCode + ". Bailing out of trying to parse response.",
+					statusCode: data.statusCode,
+					res: data.body,
+					error: "parseAndCheckLogin got status code: " + data.statusCode + ". Bailing out of trying to parse response.",
+					sourceCall: sourceCall
+				});
+
+			let res = null;
+			try {
+				res = JSON.parse(makeParsable(data.body));
+			} catch (e) {
+				throw new CustomError({
+					message: "JSON.parse error. Check the `detail` property on this error.",
+					detail: e,
+					res: data.body,
+					error: "JSON.parse error. Check the `detail` property on this error.",
+					sourceCall: sourceCall
+				});
+			}
+
+			// In some cases the response contains only a redirect URL which should be followed
+			if (res.redirect && data.request.method === "GET") {
+				return defaultFuncs
+					.get(res.redirect, ctx.jar)
+					.then(parseAndCheckLogin(ctx, defaultFuncs, undefined, sourceCall));
+			}
+
+			// TODO: handle multiple cookies?
+			if (
+				res.jsmods &&
+				res.jsmods.require &&
+				Array.isArray(res.jsmods.require[0]) &&
+				res.jsmods.require[0][0] === "Cookie"
+			) {
+				res.jsmods.require[0][3][0] = res.jsmods.require[0][3][0].replace(
+					"_js_",
+					""
+				);
+				const cookie = formatCookie(res.jsmods.require[0][3], "facebook");
+				const cookie2 = formatCookie(res.jsmods.require[0][3], "messenger");
+				ctx.jar.setCookie(cookie, "https://www.facebook.com");
+				ctx.jar.setCookie(cookie2, "https://www.messenger.com");
+			}
+
+			// On every request we check if we got a DTSG and we mutate the context so that we use the latest
+			// one for the next requests.
+			if (res.jsmods && Array.isArray(res.jsmods.require)) {
+				const arr = res.jsmods.require;
+				for (const i in arr) {
+					if (arr[i][0] === "DTSG" && arr[i][1] === "setToken") {
+						ctx.fb_dtsg = arr[i][3][0];
+
+						// Update ttstamp since that depends on fb_dtsg
+						ctx.ttstamp = "2";
+						for (let j = 0; j < ctx.fb_dtsg.length; j++) {
+							ctx.ttstamp += ctx.fb_dtsg.charCodeAt(j);
+						}
+					}
+				}
+			}
+
+			if (res.error === 1357001) {
+				throw new CustomError({
+					message: "Facebook blocked login. Please visit https://facebook.com and check your account.",
+					error: "Not logged in.",
+					res: res,
+					statusCode: data.statusCode,
+					sourceCall: sourceCall
+				});
+			}
+			return res;
+		});
+	};
+}
+
+function saveCookies(jar) {
+	return function (res) {
+		const cookies = res.headers["set-cookie"] || [];
+		cookies.forEach(function (c) {
+			if (c.indexOf(".facebook.com") > -1) {
+				jar.setCookie(c, "https://www.facebook.com");
+			}
+			const c2 = c.replace(/domain=\.facebook\.com/, "domain=.messenger.com");
+			jar.setCookie(c2, "https://www.messenger.com");
+		});
+		return res;
+	};
+}
+
+const NUM_TO_MONTH = [
+	"Jan",
+	"Feb",
+	"Mar",
+	"Apr",
+	"May",
+	"Jun",
+	"Jul",
+	"Aug",
+	"Sep",
+	"Oct",
+	"Nov",
+	"Dec"
+];
+const NUM_TO_DAY = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+function formatDate(date) {
+	let d = date.getUTCDate();
+	d = d >= 10 ? d : "0" + d;
+	let h = date.getUTCHours();
+	h = h >= 10 ? h : "0" + h;
+	let m = date.getUTCMinutes();
+	m = m >= 10 ? m : "0" + m;
+	let s = date.getUTCSeconds();
+	s = s >= 10 ? s : "0" + s;
+	return (
+		NUM_TO_DAY[date.getUTCDay()] +
+		", " +
+		d +
+		" " +
+		NUM_TO_MONTH[date.getUTCMonth()] +
+		" " +
+		date.getUTCFullYear() +
+		" " +
+		h +
+		":" +
+		m +
+		":" +
+		s +
+		" GMT"
+	);
+}
+
+function formatCookie(arr, url) {
+	return (
+		arr[0] + "=" + arr[1] + "; Path=" + arr[3] + "; Domain=" + url + ".com"
+	);
+}
+
+function formatThread(data) {
+	return {
+		threadID: formatID(data.thread_fbid.toString()),
+		participants: data.participants.map(formatID),
+		participantIDs: data.participants.map(formatID),
+		name: data.name,
+		nicknames: data.custom_nickname,
+		snippet: data.snippet,
+		snippetAttachments: data.snippet_attachments,
+		snippetSender: formatID((data.snippet_sender || "").toString()),
+		unreadCount: data.unread_count,
+		messageCount: data.message_count,
+		imageSrc: data.image_src,
+		timestamp: data.timestamp,
+		serverTimestamp: data.server_timestamp, // what is this?
+		muteUntil: data.mute_until,
+		isCanonicalUser: data.is_canonical_user,
+		isCanonical: data.is_canonical,
+		isSubscribed: data.is_subscribed,
+		folder: data.folder,
+		isArchived: data.is_archived,
+		recipientsLoadable: data.recipients_loadable,
+		hasEmailParticipant: data.has_email_participant,
+		readOnly: data.read_only,
+		canReply: data.can_reply,
+		cannotReplyReason: data.cannot_reply_reason,
+		lastMessageTimestamp: data.last_message_timestamp,
+		lastReadTimestamp: data.last_read_timestamp,
+		lastMessageType: data.last_message_type,
+		emoji: data.custom_like_icon,
+		color: data.custom_color,
+		adminIDs: data.admin_ids,
+		threadType: data.thread_type
+	};
+}
+
+function getType(obj) {
+	return Object.prototype.toString.call(obj).slice(8, -1);
+}
+
+function formatProxyPresence(presence, userID) {
+	if (presence.lat === undefined || presence.p === undefined) return null;
+	return {
+		type: "presence",
+		timestamp: presence.lat * 1000,
+		userID: userID,
+		statuses: presence.p
+	};
+}
+
+function formatPresence(presence, userID) {
+	return {
+		type: "presence",
+		timestamp: presence.la * 1000,
+		userID: userID,
+		statuses: presence.a
+	};
+}
+
+function getFroms(str, startToken, endToken) {
+	//advanced search by kanzuuuuuuuuuu 
+	let results = [];
+	let currentIndex = 0;
+
+	while (true) {
+			let start = str.indexOf(startToken, currentIndex);
+			if (start === -1) break;
+
+			start += startToken.length;
+
+			let lastHalf = str.substring(start);
+			let end = lastHalf.indexOf(endToken);
+
+			if (end === -1) {
+					if (results.length === 0) {
+							throw Error("Could not find endToken `" + endToken + "` in the given string.");
+					}
+					break;
+			}
+
+			results.push(lastHalf.substring(0, end));
+			currentIndex = start + end + endToken.length;
+	}
+
+	return results.length === 0 ? "" : results.length === 1 ? results[0] : results;
+}
+
+function decodeClientPayload(payload) {
+	/*
+	Special function which Client using to "encode" clients JSON payload
+	*/
+	return JSON.parse(String.fromCharCode.apply(null, payload));
+}
+
+function getAppState(jar) {
+	return jar
+		.getCookies("https://www.facebook.com")
+		.concat(jar.getCookies("https://facebook.com"))
+		.concat(jar.getCookies("https://www.messenger.com"));
+}
+module.exports = {
+	CustomError,
+	isReadableStream,
+	get,
+	post,
+	postFormData,
+	generateThreadingID,
+	generateOfflineThreadingID,
+	getGUID,
+	getFrom,
+	makeParsable,
+	arrToForm,
+	getSignatureID,
+	getJar: request.jar,
+	generateTimestampRelative,
+	makeDefaults,
+	parseAndCheckLogin,
+	saveCookies,
+	getType,
+	_formatAttachment,
+	formatHistoryMessage,
+	formatID,
+	formatMessage,
+	formatDeltaEvent,
+	formatDeltaMessage,
+	formatProxyPresence,
+	formatPresence,
+	formatTyp,
+	formatDeltaReadReceipt,
+	formatCookie,
+	formatThread,
+	formatReadReceipt,
+	formatRead,
+	generatePresence,
+	generateAccessiblityCookie,
+	formatDate,
+	decodeClientPayload,
+	getAppState,
+	getAdminTextMessageType,
+	setProxy,
+	getFroms
+};
