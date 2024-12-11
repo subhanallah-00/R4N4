@@ -50,7 +50,7 @@ start: async function({ nayan, events, args, lang}) {
 
     nayan.reply({
         attachment: imgData,
-        body: "🔍Imagine Result🔍\n\n📝Prompt: " + prompt + "\n\n#️⃣Number of Images: " + numberSearch
+        body: "⊰᯽⊱┈────╌❊╌────┈⊰᯽⊱\n🔍Imagine Result🔍\n📝Prompt: " + prompt + "\n\n#️⃣Number of Images: " + numberSearch
     }, events.threadID, events.messageID)
     for (let ii = 1; ii < parseInt(numberSearch); ii++) {
         fs.unlinkSync(__dirname + `/cache/${ii}.jpg`)
