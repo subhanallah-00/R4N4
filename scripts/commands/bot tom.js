@@ -9,7 +9,7 @@ module.exports.config = {
   name: "tom",
   version: "6.9.9",
   credits: "dipto",
-  cooldowns: 0,
+  cooldowns: 5,
   permssion: 0,
   description: "better than all sim simi",
   category: "chat",
