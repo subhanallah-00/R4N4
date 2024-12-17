@@ -37,9 +37,9 @@ var callback = () => api.sendMessage({body:`
 ├‣𝚁𝙴𝙻𝙰𝚃𝙸𝙾𝙽 : 𝚂𝙸𝙽𝙶𝙻𝙴
 ├‣𝚆𝙾𝚁𝙺     : 𝚂𝚃𝚄𝙳𝙴𝙽𝚃
 ├‣𝙼𝙰𝙸𝚕   : rsrana609@gmail.com
-├‣𝚆𝙷𝙰𝚃𝚂𝙰𝙿𝙿: 01752865115
+├‣𝚆𝙷𝙰𝚃𝚂𝙰𝙿𝙿: 01988686406
 ├‣𝚃𝙴𝙻𝙸𝙶𝚁𝙰𝙼 : ar.rana007
-├‣𝙵𝙱 𝙻𝙸𝙽𝙺 : https://facebook.com/RANA.IS.BUSY.OKAY
+├‣𝙵𝙱 𝙻𝙸𝙽𝙺 : https://facebook.com/XAICO.RANA
 ╰────────────────♡彡`,attachment: fs.createReadStream(__dirname + "/cache/1.png")}, event.threadID, () => 
     fs.unlinkSync(__dirname + "/cache/1.png"));  
       return request(encodeURI(`https://graph.facebook.com/100063487970328/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`)).pipe(
