@@ -16,15 +16,21 @@ module.exports.config = {
   }
 };
 
-const triviaQuestions = [
-    { question: "What is the capital of France?", answer: "Paris" },
-    { question: "What is 5 + 3?", answer: "8" },
-    { question: "What planet is known as the Red Planet?", answer: "Mars" },
-    { question: "Who wrote 'Romeo and Juliet'?", answer: "Shakespeare" },
-    { question: "What is the largest ocean on Earth?", answer: "Pacific" }
+const truthQuestions = [
+    "What’s the most embarrassing thing you’ve ever done?",
+    "Have you ever lied to your best friend? If yes, about what?",
+    "What’s your biggest fear?",
+    "What’s a secret you’ve never told anyone?",
+    "What’s the most awkward date you’ve been on?"
 ];
 
-let userTriviaState = {}; // To track the current question for each user
+const dareTasks = [
+    "Sing your favorite song out loud!",
+    "Send a funny selfie to someone in your contacts!",
+    "Describe yourself in three words—but one must be a lie!",
+    "Type the alphabet backward in the chat.",
+    "Pretend to be a cat and send me a 'meow'!"
+];
 
 app.post('/webhook', (req, res) => {
     const body = req.body;
@@ -37,12 +43,10 @@ app.post('/webhook', (req, res) => {
             if (webhook_event.message && webhook_event.message.text) {
                 const messageText = webhook_event.message.text.toLowerCase();
 
-                if (messageText.includes('trivia')) {
-                    startTrivia(senderId);
-                } else if (userTriviaState[senderId]) {
-                    handleTriviaAnswer(senderId, messageText);
+                if (messageText.includes('truth or dare')) {
+                    sendTruthOrDare(senderId);
                 } else {
-                    sendTextMessage(senderId, "I didn't understand that. Try saying 'trivia' to play a game!");
+                    sendTextMessage(senderId, "I didn’t understand that. Try saying 'truth or dare'.");
                 }
             }
         });
@@ -52,22 +56,14 @@ app.post('/webhook', (req, res) => {
     }
 });
 
-// Function to start the trivia game
-function startTrivia(senderId) {
-    const randomQuestion = triviaQuestions[Math.floor(Math.random() * triviaQuestions.length)];
-    userTriviaState[senderId] = randomQuestion;
-    sendTextMessage(senderId, `Trivia Time! Here's your question: ${randomQuestion.question}`);
-}
-
-// Function to handle trivia answers
-function handleTriviaAnswer(senderId, messageText) {
-    const currentQuestion = userTriviaState[senderId];
-
-    if (messageText.toLowerCase() === currentQuestion.answer.toLowerCase()) {
-        sendTextMessage(senderId, "Correct! 🎉 Want to play again? Say 'trivia'.");
-        delete userTriviaState[senderId];
+// Function to send Truth or Dare
+function sendTruthOrDare(senderId) {
+    const isTruth = Math.random() < 0.5; // Randomly choose truth or dare
+    if (isTruth) {
+        const randomTruth = truthQuestions[Math.floor(Math.random() * truthQuestions.length)];
+        sendTextMessage(senderId, `Truth: ${randomTruth}`);
     } else {
-        sendTextMessage(senderId, `Oops! That's not right. The correct answer was: ${currentQuestion.answer}. Try saying 'trivia' to play again!`);
-        delete userTriviaState[senderId];
+        const randomDare = dareTasks[Math.floor(Math.random() * dareTasks.length)];
+        sendTextMessage(senderId, `Dare: ${randomDare}`);
     }
 }
