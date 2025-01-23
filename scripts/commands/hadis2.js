@@ -1,21 +1,23 @@
 const fs = global.nodemodule["fs-extra"];
 module.exports.config = {
-  name: `truth`,
-  version: "1.0.0", 
+  name: `truthordare`,
+  version: "1.0.0",
   permission: 0,
-  credits: "RANA",
-  description: "Play Truth or Dare in the chat", 
+  credits: "Rahad",
+  description: "Play Truth or Dare in the chat",
   prefix: true,
   category: "user",
   usages: "truth or dare",
-  cooldowns: 5, 
-  dependencies: {}
+  cooldowns: 5,
+  dependencies: {
+    "moment-timezone": ""
+  }
 };
 
-module.exports.handleEvent = async function({ api, event, args, Threads, Users }) {
+module.exports.handleEvent = async function({ api, event, Threads, Users }) {
   const moment = require("moment-timezone");
-  const time = moment.tz("Asia/Dhaka").format("HH:MM:ss L");
-  const { threadID, messageID, senderID } = event;
+  const time = moment.tz("Asia/Dhaka").format("HH:mm:ss L"); // Fixed time format
+  const { threadID, messageID, senderID, body } = event;
 
   const truthQuestions = [
     "What’s the most embarrassing thing you’ve ever done?",
@@ -33,7 +35,8 @@ module.exports.handleEvent = async function({ api, event, args, Threads, Users }
     "Type the alphabet backward in the chat!"
   ];
 
-  const message = event.body.toLowerCase();
+  if (!body) return; // Ensure there's a message body
+  const message = body.toLowerCase();
 
   if (message === "truth or dare") {
     const choices = ["Truth", "Dare"];
