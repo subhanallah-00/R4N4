@@ -4,7 +4,7 @@ module.exports.config = {
     name: "afro",
     version: "1.0.0",
     permission: 0,
-    credits: "Rahad",
+    credits: "Rana",
     description: "Talk to Ana",
     prefix: true, 
     category: "sim simi fun", 
@@ -22,7 +22,7 @@ module.exports.handleEvent = async function ({ api, event }) {
     let tid = threadID,
         mid = messageID;
     const content = encodeURIComponent(args.join(" "));
-    if (!args[0]) return api.sendMessage("__〲 hmm bolo baby....!!🥰 ...", tid, mid);
+    if (!args[0]) return api.sendMessage("__〲 hmm bolo...!!😑👍", tid, mid);
     try {
         console.log("Request:", `https://simsimi.fun/api/v2/?mode=talk&lang=bn&message=${content}&filter=true`); // Log request URL
         const res = await axios.get(`https://simsimi.fun/api/v2/?mode=talk&lang=bn&message=${content}&filter=true`);
