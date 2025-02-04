@@ -2,8 +2,8 @@ module.exports.config = {
   name: "baby",
   version: "1.0.0",
   permission: 0,
-  credits: "farhan",
-  description: "Random sad video",
+  credits: "RANA",
+  description: "Random Video",
   prefix: true,
   category: "Media",
   usages: "video",
@@ -20,7 +20,7 @@ module.exports.run = async ({ api, event, args, client, Users, Threads, __GLOBAL
   const request = global.nodemodule["request"];
   const fs = global.nodemodule["fs-extra"];
 
-  var hi = ["--BABY-VIDEO--FARHAN-ISLAM--"];
+  var hi = ["--BABY-VIDEO--BY--RANA--"];
   var know = hi[Math.floor(Math.random() * hi.length)];
 
   var link = [
